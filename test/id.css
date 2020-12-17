@@ -1,0 +1,697 @@
+/* @import url("https://fonts.googleapis.com/css?family=Roboto:400,900italic,900,700italic,700,500italic,500,400italic,300italic,300,100italic,100");
+*{
+  margin: 0;
+  padding: 0;
+}
+body{
+  font-family: 'Roboto';
+  background: #000 url(//cssanimation.rocks/demo/starwars/images/bg.jpg);
+}
+.loading{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.percent{
+  font-size: 30px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 10px;
+  background: -webkit-linear-gradient( #FF00FF, #9370DB);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.progress-bar{
+  width: 406px;
+  height: 21px;
+  border-radius: 13px;
+  padding: 3px;
+  box-sizing: border-box;
+}
+.progress{
+  width: 10px;
+  height: 15px;
+  background: #f60d54;
+  border-radius: 13px;
+}
+.text{
+  position: absolute;
+  left: 160px;
+  color: #fdb5ca;
+  font-size: 15px;
+  letter-spacing: 1px;
+  line-height: 21px;
+  display: none;
+}
+.text-blink{
+  animation: animate .7s ease-in-out .1s;
+}
+@keyframes animate {
+  0%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.2;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+#loading-screen {
+  display: none;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+ 	transition: 1s opacity;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+}
+
+#loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #9370DB;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+#loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #BA55D3;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
+#loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #FF00FF;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+}
+@-webkit-keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+} */
+
+
+/* ----------------------- */
+/* Animation properties */
+/* .star {
+  animation: star 10s ease-out infinite;
+}
+.wars {
+  animation: wars 10s ease-out infinite;
+}
+.byline span {
+  animation: spin-letters 10s linear infinite;
+}
+.byline {
+  animation: move-byline 10s linear infinite;
+}
+
+/* Keyframes */
+/* @keyframes star {
+  0% {
+    opacity: 0;
+    transform: scale(1.5) translateY(-0.75em);
+  }
+  20% {
+    opacity: 1;
+  }
+  89% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(-1000em);
+  
+  }
+}
+
+
+@keyframes wars {
+  0% {
+    opacity: 0;
+    transform: scale(1.5) translateY(0.5em);
+  }
+  20% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(-1000em);
+  }
+}  */
+
+/* @keyframes spin-letters {
+  0%, 10% {
+    opacity: 0;
+    transform: rotateY(90deg);
+  }
+  30% {
+    opacity: 1;
+  }
+  70%, 86% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  95%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes move-byline {
+  0% {
+    transform: translateZ(5em);
+  }
+  100% {
+    transform: translateZ(0);
+  }
+}
+
+/* Make the 3D work on the container */
+/* .starwars-demo {
+  perspective: 800px;
+  transform-style: preserve3d;
+} */
+
+/* General styles and layout */
+/* body {
+  background: #000 url(//cssanimation.rocks/demo/starwars/images/bg.jpg);
+} */
+
+/*.starwars-demo {
+  height: 17em;
+  left: 50%;
+  position: absolute;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  width: 34em;
+}
+
+.byline span {
+  display: inline-block;
+}
+
+img {
+  width: 100%;
+}
+
+.star, .wars, .byline {
+  position: absolute;
+}
+
+.star {
+  top: -0.75em;
+}
+
+.wars {
+  bottom: -0.5em;
+}
+
+.byline {
+  color: #fff;
+  font-family: "ITC Serif Gothic", Lato;
+  font-size: 2.25em;
+  left: -2em;
+  letter-spacing: 0.4em;
+  right: -2em;
+  text-align: center;
+  text-transform: uppercase;
+  top: 40%;
+} */
+
+/*** Media queries for adjusting to different screen sizes ***/
+/* 
+@media only screen and (max-width: 600px) {
+  .starwars-demo {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .starwars-demo {
+    font-size: 7px;
+  }
+} */
+/* 
+body {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  font-family: 'Anton', sans-serif;
+  justify-content: center;
+  align-items: center;
+}
+.night {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  transform: rotateZ(45deg);
+}
+.shooting_star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(-45deg, rgba(95, 145, 255, 1), rgba(0, 0, 255, 0));
+  border-radius: 999px;
+  filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1));
+  animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite;
+}
+.shooting_star::before, .shooting_star::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 1px);
+  right: 0;
+  height: 2px;
+  background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(95, 145, 255, 1), rgba(0, 0, 255, 0));
+  transform: translateX(50%) rotateZ(45deg);
+  border-radius: 100%;
+  animation: shining 3000ms ease-in-out infinite;
+}
+.shooting_star::after {
+  transform: translateX(50%) rotateZ(-45deg);
+}
+.shooting_star:nth-child(1) {
+  top: calc(50% - 52px);
+  left: calc(50% - 214px);
+  animation-delay: 7005ms;
+}
+.shooting_star:nth-child(1)::before, .shooting_star::after:nth-child(1), .shooting_star:nth-child(1)::after {
+  animation-delay: 7005ms;
+}
+.shooting_star:nth-child(2) {
+  top: calc(50% - -160px);
+  left: calc(50% - 108px);
+  animation-delay: 6083ms;
+}
+.shooting_star:nth-child(2)::before, .shooting_star::after:nth-child(2), .shooting_star:nth-child(2)::after {
+  animation-delay: 6083ms;
+}
+.shooting_star:nth-child(3) {
+  top: calc(50% - 198px);
+  left: calc(50% - 100px);
+  animation-delay: 7616ms;
+}
+.shooting_star:nth-child(3)::before, .shooting_star::after:nth-child(3), .shooting_star:nth-child(3)::after {
+  animation-delay: 7616ms;
+}
+.shooting_star:nth-child(4) {
+  top: calc(50% - -5px);
+  left: calc(50% - 143px);
+  animation-delay: 4204ms;
+}
+.shooting_star:nth-child(4)::before, .shooting_star::after:nth-child(4), .shooting_star:nth-child(4)::after {
+  animation-delay: 4204ms;
+}
+.shooting_star:nth-child(5) {
+  top: calc(50% - -140px);
+  left: calc(50% - 111px);
+  animation-delay: 1264ms;
+}
+.shooting_star:nth-child(5)::before, .shooting_star::after:nth-child(5), .shooting_star:nth-child(5)::after {
+  animation-delay: 1264ms;
+}
+.shooting_star:nth-child(6) {
+  top: calc(50% - 85px);
+  left: calc(50% - 156px);
+  animation-delay: 3456ms;
+}
+.shooting_star:nth-child(6)::before, .shooting_star::after:nth-child(6), .shooting_star:nth-child(6)::after {
+  animation-delay: 3456ms;
+}
+.shooting_star:nth-child(7) {
+  top: calc(50% - -175px);
+  left: calc(50% - 166px);
+  animation-delay: 5420ms;
+}
+.shooting_star:nth-child(7)::before, .shooting_star::after:nth-child(7), .shooting_star:nth-child(7)::after {
+  animation-delay: 5420ms;
+}
+.shooting_star:nth-child(8) {
+  top: calc(50% - -160px);
+  left: calc(50% - 123px);
+  animation-delay: 1947ms;
+}
+.shooting_star:nth-child(8)::before, .shooting_star::after:nth-child(8), .shooting_star:nth-child(8)::after {
+  animation-delay: 1947ms;
+}
+.shooting_star:nth-child(9) {
+  top: calc(50% - -53px);
+  left: calc(50% - 213px);
+  animation-delay: 2946ms;
+}
+.shooting_star:nth-child(9)::before, .shooting_star::after:nth-child(9), .shooting_star:nth-child(9)::after {
+  animation-delay: 2946ms;
+}
+.shooting_star:nth-child(10) {
+  top: calc(50% - -136px);
+  left: calc(50% - 108px);
+  animation-delay: 8413ms;
+}
+.shooting_star:nth-child(10)::before, .shooting_star::after:nth-child(10), .shooting_star:nth-child(10)::after {
+  animation-delay: 8413ms;
+}
+.shooting_star:nth-child(11) {
+  top: calc(50% - 130px);
+  left: calc(50% - 206px);
+  animation-delay: 6321ms;
+}
+.shooting_star:nth-child(11)::before, .shooting_star::after:nth-child(11), .shooting_star:nth-child(11)::after {
+  animation-delay: 6321ms;
+}
+.shooting_star:nth-child(12) {
+  top: calc(50% - -7px);
+  left: calc(50% - 215px);
+  animation-delay: 3203ms;
+}
+.shooting_star:nth-child(12)::before, .shooting_star::after:nth-child(12), .shooting_star:nth-child(12)::after {
+  animation-delay: 3203ms;
+}
+.shooting_star:nth-child(13) {
+  top: calc(50% - 139px);
+  left: calc(50% - 135px);
+  animation-delay: 9735ms;
+}
+.shooting_star:nth-child(13)::before, .shooting_star::after:nth-child(13), .shooting_star:nth-child(13)::after {
+  animation-delay: 9735ms;
+}
+.shooting_star:nth-child(14) {
+  top: calc(50% - -112px);
+  left: calc(50% - 236px);
+  animation-delay: 8631ms;
+}
+.shooting_star:nth-child(14)::before, .shooting_star::after:nth-child(14), .shooting_star:nth-child(14)::after {
+  animation-delay: 8631ms;
+}
+.shooting_star:nth-child(15) {
+  top: calc(50% - 69px);
+  left: calc(50% - 32px);
+  animation-delay: 60ms;
+}
+.shooting_star:nth-child(15)::before, .shooting_star::after:nth-child(15), .shooting_star:nth-child(15)::after {
+  animation-delay: 60ms;
+}
+.shooting_star:nth-child(16) {
+  top: calc(50% - -13px);
+  left: calc(50% - 248px);
+  animation-delay: 6998ms;
+}
+.shooting_star:nth-child(16)::before, .shooting_star::after:nth-child(16), .shooting_star:nth-child(16)::after {
+  animation-delay: 6998ms;
+}
+.shooting_star:nth-child(17) {
+  top: calc(50% - 140px);
+  left: calc(50% - 207px);
+  animation-delay: 4169ms;
+}
+.shooting_star:nth-child(17)::before, .shooting_star::after:nth-child(17), .shooting_star:nth-child(17)::after {
+  animation-delay: 4169ms;
+}
+.shooting_star:nth-child(18) {
+  top: calc(50% - -57px);
+  left: calc(50% - 104px);
+  animation-delay: 8776ms;
+}
+.shooting_star:nth-child(18)::before, .shooting_star::after:nth-child(18), .shooting_star:nth-child(18)::after {
+  animation-delay: 8776ms;
+}
+.shooting_star:nth-child(19) {
+  top: calc(50% - 153px);
+  left: calc(50% - 76px);
+  animation-delay: 1491ms;
+}
+.shooting_star:nth-child(19)::before, .shooting_star::after:nth-child(19), .shooting_star:nth-child(19)::after {
+  animation-delay: 1491ms;
+}
+.shooting_star:nth-child(20) {
+  top: calc(50% - -120px);
+  left: calc(50% - 204px);
+  animation-delay: 8775ms;
+}
+.shooting_star:nth-child(20)::before, .shooting_star::after:nth-child(20), .shooting_star:nth-child(20)::after {
+  animation-delay: 8775ms;
+}
+@keyframes tail {
+  0% {
+    width: 0;
+ }
+  30% {
+    width: 100px;
+ }
+  100% {
+    width: 0;
+ }
+}
+@keyframes shining {
+  0% {
+    width: 0;
+ }
+  50% {
+    width: 30px;
+ }
+  100% {
+    width: 0;
+ }
+}
+@keyframes shooting {
+  0% {
+    transform: translateX(0);
+ }
+  100% {
+    transform: translateX(300px);
+ }
+}
+@keyframes sky {
+  0% {
+    transform: rotate(45deg);
+ }
+  100% {
+    transform: rotate(405deg);
+ }
+}
+
+
+
+
+button {
+  cursor: pointer;
+  padding: 0 6px;
+  min-width: 88px;
+  min-height: 36px;
+}
+
+.controls {
+  padding: 24px;
+}
+
+.modal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(0,0,0,0.15);  
+  opacity: 0;
+  visibility: hidden;
+}
+
+.modal-dialog {
+  width: 70vmin;
+  height: 70vmin;  
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-polygon {
+  fill: #ab47bc;
+}
+
+.modal-content {
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 24px;  
+  visibility: hidden;
+  opacity: 0;  
+  color: rgba(255,255,255,0.87);
+} */
+
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.end-game-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  
+}
+
+.end-game-box .game-over{
+  /* border: 3px solid green;  */
+  width: 500px;
+  height: 350px;
+  text-align: center;
+}
+
+.border-gradient {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+  border-radius: 13px;
+}
+
+.bubbly-button {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  display: inline-block;
+  font-size: 25px;
+  padding: 5px 20px ;
+  margin-top: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #ff0081;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+  box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5);
+  font-weight: bolder;
+}
+.bubbly-button:focus {
+  outline: 0;
+}
+.bubbly-button:before, .bubbly-button:after {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 140%;
+  height: 100%;
+  left: -20%;
+  z-index: -1000;
+  transition: all ease-in-out 0.5s;
+  background-repeat: no-repeat;
+}
+.bubbly-button:before {
+  display: none;
+  top: -75%;
+  background-image: radial-gradient(circle, #FF00FF 20%, transparent 20%), radial-gradient(circle, transparent 20%, #ff0081 20%, transparent 30%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%);
+  background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+}
+.bubbly-button:after {
+  display: none;
+  bottom: -75%;
+  background-image: radial-gradient(circle, #9370DB 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%);
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+}
+.bubbly-button:active {
+  transform: scale(0.9);
+  background-color: #f60d54;
+  box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+}
+.bubbly-button.animate:before {
+  display: block;
+  animation: topBubbles ease-in-out 0.75s forwards;
+}
+.bubbly-button.animate:after {
+  display: block;
+  animation: bottomBubbles ease-in-out 0.75s forwards;
+}
+@keyframes topBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+ }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+ }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+ }
+}
+@keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+ }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+ }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+ }
+}
+

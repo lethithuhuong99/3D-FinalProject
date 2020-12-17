@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Loading Animation</title>
+    <link rel="stylesheet" href="id.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script  type="text/javascript" src="../js/three.js"></script>
+    <script  type="text/javascript" src="../js/app.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+  </head>
+  <body>
+
+    <!-- <section>
+      <div class="starwars-demo">
+        <img src="../data/textures/star.svg" alt="Star" class="star">
+        <img src="../data/textures/wars.svg" alt="Wars" class="wars">
+        <h2 class="byline" id="byline">The Force Awakens</h2>
+      </div>
+    </section> -->
+    
+    <!-- <section id="loading-screen" >
+      <div id="loader">
+          
+      </div>
+        <div class="loading">
+              <div class="percent">100%</div>
+              <div class="progress-bar" style="display: none;">
+                <div class="progress"></div>
+              </div>
+      </div>
+    </section> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- <script>
+       
+        const manager = new THREE.LoadingManager()
+
+        manager.onLoad = function ( ) {
+            console.log( "Loading complete!")
+        }
+
+
+        manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+            console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`)
+        }
+
+        manager.onError = function ( url ) {
+            console.log( 'There was an error loading ' + url )
+        }
+
+        const cubeTextureLoader = new THREE.CubeTextureLoader(manager)
+        // const gltfLoader = new THREE.GLTFLoader(manager)
+
+        // gltfLoader.load("model.gltf")
+
+        cubeTextureLoader.load([
+                    "../data/textures/skybox/arid2_ft.jpg",
+                    "../data/textures/skybox/arid2_bk.jpg",
+                    "../data/textures/skybox/arid2_dn.jpg",
+                    "../data/textures/skybox/arid2_lf.jpg",
+                    "../data/textures/skybox/arid2_rt.jpg",
+                    "../data/textures/skybox/arid2_up.jpg",
+                ])
+
+        function progress(){
+       
+        var loadingSection = document.querySelector('#loading-screen')
+        loadingSection.style.display = "inline";
+        var percent = document.querySelector('.percent');
+        var progress = document.querySelector('.progress');
+        var text = document.querySelector('.text');
+        var count = 0;
+        var per = 0;
+        var loading = setInterval(animate, 50);
+        function animate(){
+            if(count == 100 && per == 400){
+            // percent.classList.add("text-blink");
+            // text.style.display = "block";
+            loadingSection.style.display= "none";
+            clearInterval(loading);
+            }else{
+            per = per + 4;
+            count = count + 1;
+            progress.style.width = per + 'px';
+            percent.textContent = count + '%';
+            }
+        }
+        }
+        
+        function showGame() {
+          
+          var byline = document.getElementById('byline');   // Find the H2
+          bylineText = byline.innerHTML;                    // Get the content of the H2
+          bylineArr = bylineText.split('');                 // Split content into array
+          byline.innerHTML = '';                            // Empty current content
+
+              
+          
+          var span;         // Create variables to create elements
+          var letter;
+          var i=0;
+          for(i=0;i<bylineArr.length;i++){                  // Loop for every letter
+            span = document.createElement("span");          // Create a <span> element
+            letter = document.createTextNode(bylineArr[i]); // Create the letter
+            if(bylineArr[i] == ' ') {                       // If the letter is a space...
+              byline.appendChild(letter);         // ...Add the space without a span
+            } else {
+              span.appendChild(letter);           // Add the letter to the span
+              byline.appendChild(span);           // Add the span to the h2
+            }
+          }
+          var timeleft = 10;
+          setInterval(function(){
+            timeleft -= 10;
+            if(timeleft == 0){
+              var starwars =document.querySelector('.starwars-demo');     
+              starwars.style.display = "none"; 
+              progress();
+            }
+          }, 10000);
+         
+        }
+        showGame();
+        
+        
+
+    </script> -->
+<!--     
+    <div class="night">
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+      <div class="shooting_star"></div>
+  </div>
+
+  <section class="controls">
+    <button id="open-button">Open</button>
+  </section>
+  
+  
+  <section id="modal-1" class="modal-container">
+    
+    <div class="modal-dialog">    
+      <svg class="modal-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon class="modal-polygon" />
+      </svg>
+      
+      <div class="modal-content">
+        <h2>I'm a modal</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis excepturi ut inventore consectetur quos rerum quibusdam accusamus, labore itaque assumenda consequatur cum saepe velit quidem ipsa facilis. Repellendus, reiciendis quam?</p>
+      </div>
+      
+    </div>
+  </section> -->
+
+  <!-- <div class="container">
+  <h2>Large Modal</h2>
+  Trigger the modal with a button
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Large Modal</button>
+
+  Modal
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a large modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<div class="end-game-box ">
+  <div class="game-over border-gradient">
+    <h2>Game Over</h2>
+    <h3>Your score: 1000</h3>
+    <h5>Do you known?</h5>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora natus repellendus, dicta harum excepturi quam, inventore ipsam sequi sapiente similique velit. Quo alias ipsam nobis perspiciatis delectus sed ullam necessitatibus!</p>
+    <button class="bubbly-button ">Play Again</button>
+  </div>
+</div>
+
+<script>
+  var animateButton = function(e) {
+
+    e.preventDefault;
+    //reset animation
+    e.target.classList.remove('animate');
+
+    e.target.classList.add('animate');
+    setTimeout(function(){
+      e.target.classList.remove('animate');
+    },700);
+    };
+
+    var bubblyButtons = document.getElementsByClassName("bubbly-button");
+
+    for (var i = 0; i < bubblyButtons.length; i++) {
+    bubblyButtons[i].addEventListener('click', animateButton, false);
+    }
+</script>
+  </body>
+</html>

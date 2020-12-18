@@ -37,33 +37,33 @@ var app = function(){
         // var text = document.querySelector('.text');
         var count = 0;
         // var per = 0;
-        var loading = setInterval(animate, 50);
+        // var loading = setInterval(animate, 50);
 
          // countdown PlayGame
-        //  var timeleft = 2;
-        //  setInterval(function(){
-        //      if(timeleft <= 0){
-        //          loadingSection.style.display= "none";
-        //          clearInterval(loading);
-        //      }
-        //      percent.textContent = timeleft;
-        //      timeleft -= 1;
-        //  }, 1000);
+         var timeleft = 2;
+         var loading = setInterval(function(){
+             if(timeleft < 0){
+                 loadingSection.style.display= "none";
+                 clearInterval(loading);
+             }
+             percent.textContent = timeleft;
+             timeleft -= 1;
+         }, 1000);
 
         loadingSection.style.display = "inline";
-        function animate(){
-            if(count == 100){
-            // percent.classList.add("text-blink");
-            // text.style.display = "block";
-            loadingSection.style.display= "none";
-            clearInterval(loading);
-            }else{
-            // per = per + 4;
-            count = count + 10;
-            // progress.style.width = per + 'px';
-            percent.textContent = count + '%';
-            }
-        }
+        // function animate(){
+        //     if(count == 100){
+        //     // percent.classList.add("text-blink");
+        //     // text.style.display = "block";
+        //     loadingSection.style.display= "none";
+        //     clearInterval(loading);
+        //     }else{
+        //     // per = per + 4;
+        //     count = count + 10;
+        //     // progress.style.width = per + 'px';
+        //     percent.textContent = count + '%';
+        //     }
+        // }
     }
     progress();
     // End loading animation progress

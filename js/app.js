@@ -1,6 +1,5 @@
 // Start show name of game
 function showGame() {
-          
     var byline = document.getElementById('byline');   // Find the H2
     bylineText = byline.innerHTML;                    // Get the content of the H2
     bylineArr = bylineText.split('');                 // Split content into array
@@ -19,17 +18,15 @@ function showGame() {
         byline.appendChild(span);           // Add the span to the h2
       }
     }
-
     // click play game button 
     document.querySelector('#start-play').onclick = function() {playGame()};
 
-        function playGame() {
-            var starwars =document.querySelector('#name-game');     
-            starwars.style.display = "none"; 
-            app();
-        };   
+    function playGame() {
+        var starwars =document.querySelector('#name-game');     
+        starwars.style.display = "none"; 
+        app();
+    };   
 }
-
 var app = function(){
 
     // start loading animation progress
@@ -70,7 +67,6 @@ var app = function(){
     }
     progress();
     // End loading animation progress
-   
 
     // End game
     var animateButton = function(e) {
@@ -101,19 +97,26 @@ var app = function(){
     const clock = new THREE.Clock();
     var positionPlane = new THREE.Vector3();
     var overGame = false;
+    var point = 0;
 
-
-   
     // random position
     function getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
-      }
+    }
+
+    //count point function
+    var countPoint = function(){
+
+        if(spherePlanet.position.z > positionPlane.z){
+            point += 1;
+        }
+        console.log("point: ", point);
+    }
 
     // create planet
     var createPlanet = function(){
         var sphereGeometry = new THREE.SphereGeometry(40,40,40);
         var textureLoader = new THREE.TextureLoader();
-
         var listTextures = ['data/textures/planet/sun.jpg','data/textures/planet/pluto.jpg','data/textures/planet/jupiter.jpg' ,'data/textures/planet/neptune.jpg','data/textures/planet/venus.jpg'  ];
         var texture = textureLoader.load(listTextures[Math.floor(Math.random()*listTextures.length)]);
         var material =  new THREE.MeshBasicMaterial({map: texture});   
@@ -128,7 +131,7 @@ var app = function(){
     var isGameOver= function(positionPlane){
         var distance = spherePlanet.position.distanceTo(positionPlane);
    
-        console.log("position",distance);
+        // console.log("position",distance);
         if(distance < 100){
             overGame=true;
         }else{
@@ -149,10 +152,10 @@ var app = function(){
     //Tạo model background
     var createPlaneModel = function(){
         modelLoader = new THREE.GLTFLoader();
-        modelLoader.load('plane1/scene.gltf', function(gltf){
+        modelLoader.load('models/plane1/scene.gltf', function(gltf){
             plane1 = gltf.scene;
+            plane1.rotation.y = MY_LIBS.degToRad(90);
             plane1.position.z = 950;
-            plane1.rotateY(1.8);  
             scene.add(plane1);
             mixerPlane = new THREE.AnimationMixer(plane1);
             gltf.animations.forEach((clip) => {
@@ -166,7 +169,7 @@ var app = function(){
         //Tạo model 
         modelLoader = new THREE.GLTFLoader();
         //Tao model plane
-        modelLoader.load('background/scene.gltf', function(gltf){
+        modelLoader.load('models/background/scene.gltf', function(gltf){
             background = gltf.scene;
             scene.add(background);
             background.scale.set(100,100,100);
@@ -177,10 +180,7 @@ var app = function(){
         });
     }
     
-
-
     var init_app = function(){
-
         // create the sence
         scene = new THREE.Scene();
         // create an the local camera
@@ -193,6 +193,7 @@ var app = function(){
         // camera.position.x = 300;
         // camera.position.y = 100;
         camera.position.z = 1000;
+
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(canvasWidth, canvasHeight);
@@ -224,7 +225,7 @@ var app = function(){
         //create plane
         createPlaneModel();
         //create background
-        createBackgroundModel();
+        // createBackgroundModel();
         // tạo planet đầu tiên
         createPlanet();
         //tao Planet sau mỗi lần qua máy bay
@@ -238,7 +239,6 @@ var app = function(){
     // move the obj left
     var moveLeft=function(){
         plane1.position.x -= 5;
-        
 
     }
     // move the obj right
@@ -285,7 +285,7 @@ var app = function(){
         const delta = clock.getDelta();
         // mixer.update(delta);
         mixerPlane.update(delta);
-        mixerBackground.update(delta);
+        // mixerBackground.update(delta);
       };
 
     var mainLoop = function(){
@@ -297,22 +297,24 @@ var app = function(){
             // display end game box
             var loadEndGameBox = document.querySelector('.end-game-box');
             loadEndGameBox.style.display= "flex";
-
             // click to play game again
             playAgain();
         }else{
             isGameOver(positionPlane);
             requestAnimationFrame(mainLoop);
-            animate();
         }
         
         positionPlane.setFromMatrixPosition(plane1.matrixWorld);
+
         
         // Muốn điều khiển thì chỉ ở trong hàm main viết trực tiếp trong tạo model k sử dụng được :position, rotation ...
         //plane1 
         spherePlanet.position.z +=30;
-
+        // countPoint();
         //animate function
+        animate();
+        // countPoint();
+        // console.log("point" , point);
         renderer.render(scene,camera);
         spherePlanet.position.z += 0.02;
     };

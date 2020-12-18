@@ -11,14 +11,18 @@
     <link rel="stylesheet" href="./data/css/index.css">
 
 </head>
-<body onload="app()">
+<body onload="showGame()">
 
-    <section id="name-game">
-        <div class="starwars-demo">
+    <section id="name-game" class="">
+        <div class="starwars-demo uncopy">
           <img src="./data/textures/star.svg" alt="Star" class="star">
           <img src="./data/textures/wars.svg" alt="Wars" class="wars">
-          <h2 class="byline" id="byline">The Force Awakens</h2>
+          <h2 class="byline " id="byline">The Force Awakens</h2>
         </div>
+        <div class="start-game">
+          <button class="bubbly-button start " id="start-play">Play Game</button>
+        </div>
+        
     </section>
     
     <section id="loading-screen">
@@ -27,7 +31,7 @@
            
         </div>
          <div class="loading">
-                <div class="percent">100%</div>
+                <div class="percent">3</div>
                  <!-- <label class="text">Completed!</label> -->
                 <div class="progress-bar" style="display: none;">
                   <div class="progress"></div>
@@ -41,64 +45,9 @@
           <h3>Your score: 1000</h3>
           <h5>Do you known?</h5>
           <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora natus repellendus, dicta harum excepturi quam, inventore ipsam sequi sapiente similique velit. Quo alias ipsam nobis perspiciatis delectus sed ullam necessitatibus!</p>
-          <button class="bubbly-button ">Play Again</button>
+          <button class="bubbly-button" id="play-again">Play Again</button>
         </div>
       </div>
-    <!-- <script>
-       
-        // const manager = new THREE.LoadingManager()
-
-        // manager.onLoad = function ( ) {
-        //     console.log( "Loading complete!")
-        // }
-
-
-        // manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-        //     console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`)
-        // }
-
-        // manager.onError = function ( url ) {
-        //     console.log( 'There was an error loading ' + url )
-        // }
-
-        // const cubeTextureLoader = new THREE.CubeTextureLoader(manager)
-        // // const gltfLoader = new THREE.GLTFLoader(manager)
-
-        // // gltfLoader.load("model.gltf")
-
-        // cubeTextureLoader.load([
-        //             "../data/textures/skybox/arid2_ft.jpg",
-        //             "../data/textures/skybox/arid2_bk.jpg",
-        //             "../data/textures/skybox/arid2_dn.jpg",
-        //             "../data/textures/skybox/arid2_lf.jpg",
-        //             "../data/textures/skybox/arid2_rt.jpg",
-        //             "../data/textures/skybox/arid2_up.jpg",
-        //         ])
-
-        function progress(){
-        var loadingSection = document.querySelector('#loading-screen')
-        var percent = document.querySelector('.percent');
-        var progress = document.querySelector('.progress');
-        var text = document.querySelector('.text');
-        var count = 0;
-        var per = 0;
-        var loading = setInterval(animate, 50);
-        function animate(){
-            if(count == 100 && per == 400){
-            // percent.classList.add("text-blink");
-            // text.style.display = "block";
-            loadingSection.style.display= "none";
-            clearInterval(loading);
-            }else{
-            per = per + 4;
-            count = count + 1;
-            progress.style.width = per + 'px';
-            percent.textContent = count + '%';
-            }
-        }
-        }
-        progress();
-
-    </script> -->
+  
 </body>
 </html>

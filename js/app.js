@@ -1,3 +1,34 @@
+// Start show name of game
+function showGame() {
+          
+    var byline = document.getElementById('byline');   // Find the H2
+    bylineText = byline.innerHTML;                    // Get the content of the H2
+    bylineArr = bylineText.split('');                 // Split content into array
+    byline.innerHTML = '';                            // Empty current content
+
+    var span;         // Create variables to create elements
+    var letter;
+    var i=0;
+    for(i=0;i<bylineArr.length;i++){                  // Loop for every letter
+      span = document.createElement("span");          // Create a <span> element
+      letter = document.createTextNode(bylineArr[i]); // Create the letter
+      if(bylineArr[i] == ' ') {                       // If the letter is a space...
+        byline.appendChild(letter);         // ...Add the space without a span
+      } else {
+        span.appendChild(letter);           // Add the letter to the span
+        byline.appendChild(span);           // Add the span to the h2
+      }
+    }
+
+    // click play game button 
+    document.querySelector('#start-play').onclick = function() {playGame()};
+
+        function playGame() {
+            var starwars =document.querySelector('#name-game');     
+            starwars.style.display = "none"; 
+            app();
+        };   
+}
 
 var app = function(){
 
@@ -10,6 +41,17 @@ var app = function(){
         var count = 0;
         // var per = 0;
         var loading = setInterval(animate, 50);
+
+         // countdown PlayGame
+        //  var timeleft = 2;
+        //  setInterval(function(){
+        //      if(timeleft <= 0){
+        //          loadingSection.style.display= "none";
+        //          clearInterval(loading);
+        //      }
+        //      percent.textContent = timeleft;
+        //      timeleft -= 1;
+        //  }, 1000);
 
         loadingSection.style.display = "inline";
         function animate(){
@@ -26,45 +68,9 @@ var app = function(){
             }
         }
     }
+    progress();
     // End loading animation progress
-
-    // Start show name of game
-    function showGame() {
-          
-        var byline = document.getElementById('byline');   // Find the H2
-        bylineText = byline.innerHTML;                    // Get the content of the H2
-        bylineArr = bylineText.split('');                 // Split content into array
-        byline.innerHTML = '';                            // Empty current content
-
-            
-        
-        var span;         // Create variables to create elements
-        var letter;
-        var i=0;
-        for(i=0;i<bylineArr.length;i++){                  // Loop for every letter
-          span = document.createElement("span");          // Create a <span> element
-          letter = document.createTextNode(bylineArr[i]); // Create the letter
-          if(bylineArr[i] == ' ') {                       // If the letter is a space...
-            byline.appendChild(letter);         // ...Add the space without a span
-          } else {
-            span.appendChild(letter);           // Add the letter to the span
-            byline.appendChild(span);           // Add the span to the h2
-          }
-        }
-        var timeleft = 10;
-        setInterval(function(){
-          timeleft -= 10;
-          if(timeleft == 0){
-            var starwars =document.querySelector('#name-game');     
-            starwars.style.display = "none"; 
-            progress();
-          }
-        }, 5000);
-       
-    }
-    showGame();
-    // End show name of game
-    
+   
 
     // End game
     var animateButton = function(e) {
@@ -129,7 +135,7 @@ var app = function(){
 
     // start Play again button
     var playAgain = function(){
-        document.querySelector('.bubbly-button').onclick = function() {playGameAgain()};
+        document.querySelector('#play-again').onclick = function() {playGameAgain()};
 
         function playGameAgain() {
             var loadEndGameBox = document.querySelector('.end-game-box');

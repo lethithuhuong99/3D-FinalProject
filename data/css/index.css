@@ -300,6 +300,17 @@ body{
     }
   }
 
+  /* --------------Start Game----------- */
+  .start-game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #fff;
+  }
+  .start-game .start{
+    margin-top: 500px;
+  }
 
 
   /* --------------End Game----------------- */
@@ -413,5 +424,10 @@ body{
    }
   }
   
+
+  /* uncopy */
+  .uncopy{
+    pointer-events: none;
+  }
   
   

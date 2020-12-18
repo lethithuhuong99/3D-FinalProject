@@ -96,6 +96,9 @@ var app = function(){
 
     //initialize sence, camera, objects and renderer
     var scene, camera, renderer;
+    var mixerBackground;
+    var mixerPlane;
+    const clock = new THREE.Clock();
     var positionPlane = new THREE.Vector3();
     var overGame = false;
 
@@ -143,6 +146,38 @@ var app = function(){
             location.reload();
         };
     }
+    //Tạo model background
+    var createPlaneModel = function(){
+        modelLoader = new THREE.GLTFLoader();
+        modelLoader.load('plane1/scene.gltf', function(gltf){
+            plane1 = gltf.scene;
+            plane1.position.z = 950;
+            plane1.rotateY(1.8);  
+            scene.add(plane1);
+            mixerPlane = new THREE.AnimationMixer(plane1);
+            gltf.animations.forEach((clip) => {
+                mixerPlane.clipAction(clip).play();
+            });
+        });
+    }
+
+    // Create model background
+    var createBackgroundModel = function(){
+        //Tạo model 
+        modelLoader = new THREE.GLTFLoader();
+        //Tao model plane
+        modelLoader.load('background/scene.gltf', function(gltf){
+            background = gltf.scene;
+            scene.add(background);
+            background.scale.set(100,100,100);
+            mixerBackground = new THREE.AnimationMixer(background);
+            gltf.animations.forEach((clip) => {
+                mixerBackground.clipAction(clip).play();
+            });
+        });
+    }
+    
+
 
     var init_app = function(){
 
@@ -186,15 +221,10 @@ var app = function(){
         light4.position.set(-500,300,500);
         scene.add(light4);
 
-        //Tạo model plane1
-        plane1 = new THREE.GLTFLoader();
-            plane1.load('plane1/scene.gltf', function(gltf){
-            plane1 = gltf.scene;
-            plane1.scale.set(0.5,0.5,0.5);
-            plane1.rotateY(1.8);  
-            scene.add(plane1);
-            animate();
-        });
+        //create plane
+        createPlaneModel();
+        //create background
+        createBackgroundModel();
         // tạo planet đầu tiên
         createPlanet();
         //tao Planet sau mỗi lần qua máy bay
@@ -252,9 +282,11 @@ var app = function(){
 
     // hàm animate
     function animate() {
-        requestAnimationFrame(animate);
-        renderer.render( scene, camera );
-    };
+        const delta = clock.getDelta();
+        // mixer.update(delta);
+        mixerPlane.update(delta);
+        mixerBackground.update(delta);
+      };
 
     var mainLoop = function(){
         //    console.log("distanceA", distance);
@@ -271,6 +303,7 @@ var app = function(){
         }else{
             isGameOver(positionPlane);
             requestAnimationFrame(mainLoop);
+            animate();
         }
         
         positionPlane.setFromMatrixPosition(plane1.matrixWorld);
@@ -278,7 +311,8 @@ var app = function(){
         // Muốn điều khiển thì chỉ ở trong hàm main viết trực tiếp trong tạo model k sử dụng được :position, rotation ...
         //plane1 
         spherePlanet.position.z +=30;
-          
+
+        //animate function
         renderer.render(scene,camera);
         spherePlanet.position.z += 0.02;
     };

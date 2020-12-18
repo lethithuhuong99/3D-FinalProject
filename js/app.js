@@ -104,18 +104,9 @@ var app = function(){
         return Math.floor(Math.random() * (max - min + 1) ) + min;
     }
 
-    //count point function
-    var countPoint = function(){
-
-        if(spherePlanet.position.z > positionPlane.z){
-            point += 1;
-        }
-        console.log("point: ", point);
-    }
-
     // create planet
     var createPlanet = function(){
-        var sphereGeometry = new THREE.SphereGeometry(40,40,40);
+        var sphereGeometry = new THREE.SphereGeometry(30,30,30);
         var textureLoader = new THREE.TextureLoader();
         var listTextures = ['data/textures/planet/sun.jpg','data/textures/planet/pluto.jpg','data/textures/planet/jupiter.jpg' ,'data/textures/planet/neptune.jpg','data/textures/planet/venus.jpg'  ];
         var texture = textureLoader.load(listTextures[Math.floor(Math.random()*listTextures.length)]);
@@ -123,7 +114,7 @@ var app = function(){
         spherePlanet = new THREE.Mesh(sphereGeometry, material);  
         scene.add(spherePlanet);   
         spherePlanet.position.z = -3000;
-        spherePlanet.position.x = getRndInteger(-500, 500);
+        spherePlanet.position.x = getRndInteger(-200, 200);
         spherePlanet.position.y = 0;
     }
     
@@ -132,7 +123,7 @@ var app = function(){
         var distance = spherePlanet.position.distanceTo(positionPlane);
    
         // console.log("position",distance);
-        if(distance < 100){
+        if(distance < 70){
             overGame=true;
         }else{
             overGame=false;
@@ -228,13 +219,10 @@ var app = function(){
         // createBackgroundModel();
         // tạo planet đầu tiên
         createPlanet();
-        //tao Planet sau mỗi lần qua máy bay
-        setInterval(function(){
-            scene.remove(spherePlanet);
-            createPlanet();
-        }, 3000);
-        
+        //tao Planet sau mỗi lần qua máy bay   
+     
     };
+    
 
     // move the obj left
     var moveLeft=function(){
@@ -289,16 +277,24 @@ var app = function(){
       };
 
     var mainLoop = function(){
-        //    console.log("distanceA", distance);
+        // Create sphere and count point
+        if(spherePlanet.position.z > positionPlane.z + 100){
+            point+=1;
+            console.log("hihi: ", point);
+            scene.remove(spherePlanet);
+            createPlanet();
+        }
+        //game over
         if(overGame){
+            document.getElementById("point").innerHTML = point;
             // add sound
             // addSound();
-
             // display end game box
             var loadEndGameBox = document.querySelector('.end-game-box');
             loadEndGameBox.style.display= "flex";
             // click to play game again
             playAgain();
+            
         }else{
             isGameOver(positionPlane);
             requestAnimationFrame(mainLoop);

@@ -92,28 +92,50 @@ var app = function(){
 
     //initialize sence, camera, objects and renderer
     var scene, camera, renderer;
-    var mixerBackground;
     var mixerPlane;
     const clock = new THREE.Clock();
     var positionPlane = new THREE.Vector3();
     var overGame = false;
     var point = 0;
+    var starBackground = [];
 
     // random position
     function getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
     }
 
+    // background star
+    var createStarBackground = function(){
+        var starGeometry = new THREE.SphereGeometry(1.5, 1.5, 1.5);
+        var starMaterial = new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, shininess:100, specular: Math.random() * 0xffffff});
+        var star = new THREE.Mesh(starGeometry, starMaterial);
+        star.position.x = getRndInteger(-1000,1000);
+        star.position.y = getRndInteger(-1000,1000);
+        star.position.z = -1000;
+        scene.add(star);
+        starBackground.push(star);
+    }
+
+    //update background star position 
+    var update_star = function(star , index){
+        star.position.z += 5;
+        if(star.position.z > positionPlane.z + 100){
+            starBackground.splice(index,1);
+            scene.remove(star);
+        }
+    }
+    
+
     // create planet
     var createPlanet = function(){
-        var sphereGeometry = new THREE.SphereGeometry(30,30,30);
+        var sphereGeometry = new THREE.SphereGeometry(13,13,13);
         var textureLoader = new THREE.TextureLoader();
         var listTextures = ['data/textures/planet/sun.jpg','data/textures/planet/pluto.jpg','data/textures/planet/jupiter.jpg' ,'data/textures/planet/neptune.jpg','data/textures/planet/venus.jpg'  ];
         var texture = textureLoader.load(listTextures[Math.floor(Math.random()*listTextures.length)]);
-        var material =  new THREE.MeshBasicMaterial({map: texture});   
+        var material =  new THREE.MeshPhongMaterial({map: texture});   
         spherePlanet = new THREE.Mesh(sphereGeometry, material);  
         scene.add(spherePlanet);   
-        spherePlanet.position.z = -3000;
+        spherePlanet.position.z = -2000;
         spherePlanet.position.x = getRndInteger(-200, 200);
         spherePlanet.position.y = 0;
     }
@@ -123,7 +145,7 @@ var app = function(){
         var distance = spherePlanet.position.distanceTo(positionPlane);
    
         // console.log("position",distance);
-        if(distance < 70){
+        if(distance < 30){
             overGame=true;
         }else{
             overGame=false;
@@ -133,14 +155,14 @@ var app = function(){
     // start Play again button
     var playAgain = function(){
         document.querySelector('#play-again').onclick = function() {playGameAgain()};
-
         function playGameAgain() {
             var loadEndGameBox = document.querySelector('.end-game-box');
             loadEndGameBox.style.display= "none";
             location.reload();
         };
     }
-    //Tạo model background
+
+    //Tạo model plane
     var createPlaneModel = function(){
         modelLoader = new THREE.GLTFLoader();
         modelLoader.load('models/plane1/scene.gltf', function(gltf){
@@ -154,24 +176,9 @@ var app = function(){
             });
         });
     }
-
-    // Create model background
-    var createBackgroundModel = function(){
-        //Tạo model 
-        modelLoader = new THREE.GLTFLoader();
-        //Tao model plane
-        modelLoader.load('models/background/scene.gltf', function(gltf){
-            background = gltf.scene;
-            scene.add(background);
-            background.scale.set(100,100,100);
-            mixerBackground = new THREE.AnimationMixer(background);
-            gltf.animations.forEach((clip) => {
-                mixerBackground.clipAction(clip).play();
-            });
-        });
-    }
     
     var init_app = function(){
+
         // create the sence
         scene = new THREE.Scene();
         // create an the local camera
@@ -181,44 +188,43 @@ var app = function(){
         camera = new THREE.PerspectiveCamera(fieldfOfViewY, aspectRatio, near, far);
         scene.updateMatrixWorld(true);
         scene.background = new THREE.Color(0x000000);
+        scene.background = new THREE.TextureLoader().load("data/textures/background.jpg");
         // camera.position.x = 300;
         // camera.position.y = 100;
         camera.position.z = 1000;
+        camera.position.y = 5;
 
 
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(canvasWidth, canvasHeight);
         document.body.appendChild(renderer.domElement);
 
         // cái này để điều khiển được model của mình. Phải tạo renderer trước ở trên để nó hiểu renderer.domElement
         // var controls = new THREE.OrbitControls( camera, renderer.domElement);
-        // controls.minDistance=-700;
-        // controls.maxDistance=2000;  
+        // // controls.minDistance=-700;
+        // // controls.maxDistance=2000;  
         // controls.update();
         // controls.addEventListener('change', renderer);
 
         // tạo đèn
-        hlight = new THREE.AmbientLight (0x404040,0.2);
-        scene.add(hlight);
-        light = new THREE.PointLight(0xc4c4c4,5);
-        light.position.set(0,300,500);
-        scene.add(light);
-        light2 = new THREE.PointLight(0xc4c4c4,5);
-        light2.position.set(500,100,0);
-        scene.add(light2);
-        light3 = new THREE.PointLight(0xc4c4c4,5);
-        light3.position.set(0,100,-500);
-        scene.add(light3);
-        light4 = new THREE.PointLight(0xc4c4c4,5);
-        light4.position.set(-500,300,500);
-        scene.add(light4);
+        directionLight = new THREE.DirectionalLight(0xc4c4c4,2);
+        directionLight.position.set(0,300,500);
+        scene.add(directionLight);
+        directionLight1 = new THREE.DirectionalLight(0xc4c4c4,2);
+        directionLight1.position.set(0,300,-900);
+        scene.add(directionLight1);
+        // light3 = new THREE.PointLight(0xc4c4c4,2);
+        // light3.position.set(0,100,-500);
+        // scene.add(light3);
+        // light4 = new THREE.PointLight(0xc4c4c4,2);
+        // light4.position.set(-500,300,500);
+        // scene.add(light4);
 
         //create plane
         createPlaneModel();
-        //create background
-        // createBackgroundModel();
         // tạo planet đầu tiên
         createPlanet();
+        spherePlanet.position.x = 400;
         //tao Planet sau mỗi lần qua máy bay   
      
     };
@@ -271,18 +277,21 @@ var app = function(){
     // hàm animate
     function animate() {
         const delta = clock.getDelta();
-        // mixer.update(delta);
         mixerPlane.update(delta);
-        // mixerBackground.update(delta);
       };
 
+    var s = 1;
     var mainLoop = function(){
+        if(spherePlanet.position.z > positionPlane.z - 500){
+        s = s-0.01;
+        spherePlanet.scale.set(s,s,s);
+    }
         // Create sphere and count point
         if(spherePlanet.position.z > positionPlane.z + 100){
             point+=1;
-            console.log("hihi: ", point);
             scene.remove(spherePlanet);
             createPlanet();
+            s=1;
         }
         //game over
         if(overGame){
@@ -299,11 +308,16 @@ var app = function(){
             isGameOver(positionPlane);
             requestAnimationFrame(mainLoop);
         }
-        
+
+        //get position plane model
         positionPlane.setFromMatrixPosition(plane1.matrixWorld);
 
-        
-        // Muốn điều khiển thì chỉ ở trong hàm main viết trực tiếp trong tạo model k sử dụng được :position, rotation ...
+        //random background star
+        let rand = Math.random();
+        if(rand < 1000){
+            createStarBackground();
+        }
+        starBackground.forEach(update_star);
         //plane1 
         spherePlanet.position.z +=30;
         // countPoint();

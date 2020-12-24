@@ -63,7 +63,7 @@ var app = function(){
         //     // progress.style.width = per + 'px';
         //     percent.textContent = count + '%';
         //     }
-        // }
+        // }s
     }
     progress();
     // End loading animation progress
@@ -98,6 +98,11 @@ var app = function(){
     var overGame = false;
     var point = 0;
     var starBackground = [];
+    var moveForward = false;
+    var moveBackward = false;
+    var moveLeft = false;
+    var moveRight = false;
+    var plane1;
 
     // random position
     function getRndInteger(min, max) {
@@ -136,8 +141,8 @@ var app = function(){
         spherePlanet = new THREE.Mesh(sphereGeometry, material);  
         scene.add(spherePlanet);   
         spherePlanet.position.z = -2000;
-        spherePlanet.position.x = getRndInteger(-200, 200);
-        spherePlanet.position.y = 0;
+        spherePlanet.position.x = getRndInteger(-100, 100);
+        spherePlanet.position.y = 50;
     }
     
     // check game over
@@ -168,7 +173,10 @@ var app = function(){
         modelLoader.load('models/plane1/scene.gltf', function(gltf){
             plane1 = gltf.scene;
             plane1.rotation.y = MY_LIBS.degToRad(90);
-            plane1.position.z = 950;
+            plane1.position.z = 800;
+            plane1.position.y = 50;
+            plane1.scale.set(6,6,6);
+            // plane1.position.x = 6050;
             scene.add(plane1);
             mixerPlane = new THREE.AnimationMixer(plane1);
             gltf.animations.forEach((clip) => {
@@ -191,8 +199,9 @@ var app = function(){
         scene.background = new THREE.TextureLoader().load("data/textures/background.jpg");
         // camera.position.x = 300;
         // camera.position.y = 100;
-        camera.position.z = 1000;
-        camera.position.y = 5;
+        camera.position.z = 1080;
+        camera.position.y = 70;
+        // camera.rotation.x = MY_LIBS.degToRad(-8);
 
 
         renderer = new THREE.WebGLRenderer({antialias: true});
@@ -222,6 +231,7 @@ var app = function(){
 
         //create plane
         createPlaneModel();
+
         // tạo planet đầu tiên
         createPlanet();
         spherePlanet.position.x = 400;
@@ -230,49 +240,74 @@ var app = function(){
     };
     
 
+    var speed = 2;
     // move the obj left
-    var moveLeft=function(){
-        plane1.position.x -= 5;
+    var moveL=function(){
+        plane1.position.x -= speed;
+        // plane1.translateX(5);
 
     }
     // move the obj right
-    var moveRight=function(){
-        plane1.position.x += 5;
+    var moveR=function(){
+        plane1.position.x += speed;
         // isGameOver(plane1);
     }
     
     // move the obj down
-    var moveDown=function(){
-        plane1.position.y -= 5;
+    var moveD=function(){
+        plane1.position.y -= speed;
         // isGameOver(plane1);
     }
     
     // move the obj up
-    var moveUp=function(){
-        plane1.position.y += 5;
+    var moveU=function(){
+        plane1.position.y += speed;
         // isGameOver(plane1);
     }
 
-    // mover the object by keydown 
-    document.addEventListener('keydown', function(e){
-        if(e.keyCode == 37){
-            moveLeft();
-        } else 
-            if(e.keyCode == 39){
-                moveRight();
-            }
-            else 
-            if(e.keyCode == 39){
-                moveRight();
-            }else 
-            if(e.keyCode == 38){
-                moveUp();
-                
-            }else 
-            if(e.keyCode == 40){
-                moveDown();
-            }
-    })
+    var onKeyDown = function ( event ) {
+        switch ( event.keyCode ) {
+            case 38: // up
+            case 87: // w
+                moveForward = true;
+                break;
+            case 37: // left
+            case 65: // a
+                moveLeft = true; 
+                break;
+            case 40: // down
+            case 83: // s
+                moveBackward = true;
+                break;
+            case 39: // right
+            case 68: // d
+                moveRight = true;
+                break;
+        }
+    };
+
+    var onKeyUp = function ( event ) {
+        switch( event.keyCode ) {
+            case 38: // up
+            case 87: // w
+                moveForward = false;
+                break;
+            case 37: // left
+            case 65: // a
+                moveLeft = false;
+                break;
+            case 40: // down
+            case 83: // s
+                moveBackward = false;
+                break;
+            case 39: // right
+            case 68: // d
+                moveRight = false;
+                break;
+        }
+    };
+    document.addEventListener( 'keyup', onKeyUp, false );
+    document.addEventListener('keydown', onKeyDown, false);
 
     // hàm animate
     function animate() {
@@ -320,13 +355,24 @@ var app = function(){
         starBackground.forEach(update_star);
         //plane1 
         spherePlanet.position.z +=30;
-        // countPoint();
         //animate function
         animate();
-        // countPoint();
-        // console.log("point" , point);
         renderer.render(scene,camera);
         spherePlanet.position.z += 0.02;
+
+        if ( moveForward ) {
+            moveU();
+        };
+        if ( moveBackward ) {
+            moveD();
+        };
+        if ( moveLeft ) {
+            moveL();
+        };
+        if ( moveRight ) {
+            moveR();
+        };
+        prevTime=time;
     };
     init_app();
     mainLoop();

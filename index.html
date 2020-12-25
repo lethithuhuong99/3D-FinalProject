@@ -10,6 +10,9 @@
   <script type="text/javascript" src="./js/OrbitControls.js"></script>
   <script type="text/javascript" src="./js/app.js"></script>
   <script type="text/javascript" src="./js/libs.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css
+" integrity="sha384- 
+   B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
   <link rel="stylesheet" href="./data/css/index.css">
 
@@ -17,6 +20,7 @@
 
 <body onload="showGame()">
 
+  <!-- start game -->
   <section id="name-game" class="">
     <div class="starwars-demo uncopy">
       <img src="./data/textures/star.svg" alt="Star" class="star">
@@ -26,32 +30,35 @@
     <div class="start-game">
       <button class="bubbly-button start " id="start-play">Play Game</button>
     </div>
-
   </section>
 
+  <!-- loading game -->
   <section id="loading-screen">
-
     <div id="loader">
-
     </div>
     <div class="loading">
       <div class="percent">3</div>
-      <!-- <label class="text">Completed!</label> -->
       <div class="progress-bar" style="display: none;">
         <div class="progress"></div>
       </div>
     </div>
-
   </section>
+
+  <!-- end game -->
   <div class="end-game-box ">
     <div class="game-over border-gradient">
       <h2>Game Over</h2>
       <h3>Your score: <span id="point">0</span></h3>
       <h5>Do you known?</h5>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora natus repellendus, dicta harum excepturi
-        quam, inventore ipsam sequi sapiente similique velit. Quo alias ipsam nobis perspiciatis delectus sed ullam
-        necessitatibus!</p>
+      <p id="information"></p>
       <button class="bubbly-button" id="play-again">Play Again</button>
+    </div>
+  </div>
+
+  <!-- count score -->
+  <div id="center">
+    <div id="score">
+      <i class="fas fa-globe-asia"> 0</i>
     </div>
   </div>
 

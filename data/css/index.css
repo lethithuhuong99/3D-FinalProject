@@ -44,18 +44,6 @@ body{
   background: #f60d54;
   border-radius: 13px;
 }
-.text{
-  position: absolute;
-  left: 160px;
-  color: #fdb5ca;
-  font-size: 15px;
-  letter-spacing: 1px;
-  line-height: 21px;
-  display: none;
-}
-.text-blink{
-  animation: animate .7s ease-in-out .1s;
-}
 @keyframes animate {
   0%{
     opacity: 1;
@@ -325,6 +313,7 @@ body{
     align-items: center;
     height: 100%;
     color: #fff;
+    background: #000 url(../textures/bg.jpg);
   }
   
   .end-game-box .game-over{
@@ -425,9 +414,28 @@ body{
   }
   
 
-  /* uncopy */
-  .uncopy{
-    pointer-events: none;
-  }
+/* uncopy */
+.uncopy{
+  pointer-events: none;
+}
+
+  /* score */
+#center {
+  transform-style: preserve-3d;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transform: translateY(-50%) translateX(-50%);
+  display: none;
+  padding: 10px 20px;
+  background-color: #fdf1fa;
+  border-radius: 5px;
+}
+#score {
+  transform-style: preserve-3d;
+  font-size: 30px;
+  font-weight: 600;
+  color: #753885;
+}
   
   

@@ -107,11 +107,15 @@ var app = function(){
     var speed = 2;
     var speedPlanet = 10;
     var speedCreateNewPlanet = -500
-    var minPlanePos = -100;
-    var maxPlanePos = 100;
+    var minPlanePos = -50;
+    var maxPlanePos = 50;
     var isPlay = false;
     var planetInformation=[];
     var checkSound='';
+    var listener = new THREE.AudioListener();
+    var audioLoader = new THREE.AudioLoader();
+    var playSound='';
+    var sound = new THREE.Audio( listener );
 
     /**
      * random munber between min and max
@@ -126,8 +130,8 @@ var app = function(){
      * create background star
      */
     var createStarBackground = function(){
-        var starGeometry = new THREE.SphereGeometry(1.5, 1.5, 1.5);
-        var starMaterial = new THREE.MeshPhongMaterial({color: 0xffffff, shininess:100, specular: 0xffffff});
+        var starGeometry = new THREE.SphereGeometry(1.5, 10, 10);
+        var starMaterial = new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, shininess:100, specular: Math.random() * 0xffffff});
         var star = new THREE.Mesh(starGeometry, starMaterial);
         star.position.x = getRndInteger(-1000,1000);
         star.position.y = getRndInteger(-1000,1000);
@@ -162,7 +166,7 @@ var app = function(){
         spherePlanet = new THREE.Mesh(sphereGeometry, material);  
         scene.add(spherePlanet);   
         spherePlanet.position.z = -1500;
-        spherePlanet.position.x = getRndInteger(-100, 100);
+        spherePlanet.position.x = getRndInteger(minPlanePos, maxPlanePos);
         spherePlanet.position.y = 50;
         listPlanet.push(spherePlanet);
     }
@@ -195,7 +199,7 @@ var app = function(){
             plane.rotation.y = MY_LIBS.degToRad(90);
             plane.position.z = 800;
             plane.position.y = 50;
-            plane.scale.set(6,6,6);
+            plane.scale.set(5,5,5);
             // plane.position.x = 6050;
             scene.add(plane);
             mixerPlane = new THREE.AnimationMixer(plane);
@@ -349,20 +353,41 @@ var app = function(){
     var updateSpeed = function(){
         switch (point) {
             case 10:
+                speedPlanet = 15;
+                speed = 2.5;
+                speedCreateNewPlanet = -450;
+                break;
+            case 20:
                 speedPlanet = 20;
-                speed = 4;
+                speed = 3;
+                speedCreateNewPlanet = -400;
+                break;
+            case 30:
+                speedPlanet = 25;
+                speed = 3.5;
+                speedCreateNewPlanet = -350;
+                break;
+
+            case 40:
+                speedPlanet = 30;
+                speed = 3.5;
+                speedCreateNewPlanet = -300;
+                break;
+
+            case 50:
+                speedPlanet = 35;
+                speed = 3.5;
+                speedCreateNewPlanet = -250;
                 break;
         
             default:
                 break;
         }
     }
-
-    var listener = new THREE.AudioListener();
-    var audioLoader = new THREE.AudioLoader();
-    var playSound='';
-    var sound = new THREE.Audio( listener );
-    //sound 
+    
+    /**
+     * add sound
+     */
     var addSound = function(){
         // create an AudioListener and add it to the camera
         camera.add( listener );
@@ -393,6 +418,9 @@ var app = function(){
         });
     }
 
+    /**
+     * stop sound
+     */
     var stopSound =  function(){
         audioLoader.load(playSound , function( buffer ){
             sound.setBuffer( buffer );

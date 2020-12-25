@@ -1,36 +1,38 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,900italic,900,700italic,700,500italic,500,400italic,300italic,300,100italic,100");
-*{
+* {
   margin: 0;
   padding: 0;
 }
-body{
-  font-family: 'Roboto';
-  background: #000 ;
+body {
+  font-family: "Roboto";
+  background: #000;
 }
-#name-game{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #000 url(../textures/bg.jpg);
+#name-game {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000 url(../textures/starGame.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 /*----------- Start loading animation progress -------------*/
-.loading{
+.loading {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.percent{
+.percent {
   /* color: #999; */
   font-size: 30px;
   font-weight: 400;
   text-align: center;
   margin-top: 10px;
-  background: -webkit-linear-gradient( #FF00FF, #9370DB);
+  background: -webkit-linear-gradient(#ff00ff, #9370db);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.progress-bar{
+.progress-bar {
   width: 406px;
   height: 21px;
   /* background: #111; */
@@ -38,393 +40,346 @@ body{
   padding: 3px;
   box-sizing: border-box;
 }
-.progress{
+.progress {
   width: 10px;
   height: 15px;
   background: #f60d54;
   border-radius: 13px;
 }
 @keyframes animate {
-  0%{
+  0% {
     opacity: 1;
   }
-  50%{
+  50% {
     opacity: 0.2;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 
 #loading-screen {
-    display: none;
-	position: absolute;
-	z-index: 2;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-    /* background-color: #000000; */
-  background: #000 url(../textures/bg.jpg);
-	opacity: 1;
- 	transition: 1s opacity;
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: #000000; */
+  background: #000 url(../textures/starGame.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+  transition: 1s opacity;
 }
 
 #loading-screen.fade-out {
-    opacity: 0;
+  opacity: 0;
 }
 
 #loader {
-    display: block;
-    position: relative;
-    left: 50%;
-    top: 50%;
-    width: 150px;
-    height: 150px;
-    margin: -75px 0 0 -75px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #9370DB;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #9370db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
 }
 #loader:before {
-    content: "";
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #BA55D3;
-    -webkit-animation: spin 3s linear infinite;
-    animation: spin 3s linear infinite;
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #ba55d3;
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
 }
 #loader:after {
-    content: "";
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #FF00FF;
-    -webkit-animation: spin 1.5s linear infinite;
-    animation: spin 1.5s linear infinite;
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #ff00ff;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
 }
 @-webkit-keyframes spin {
-    0%   {
-        -webkit-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 @keyframes spin {
-    0%   {
-        -webkit-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 /* End loading animation progress */
-
 
 /* ----------Start show name of game------------- */
 /* Animation properties */
 .star {
-    animation: star 10s ease-out infinite;
+  animation: star 10s ease-out infinite;
+}
+.wars {
+  animation: wars 10s ease-out infinite;
+}
+.byline span {
+  animation: spin-letters 10s linear infinite;
+}
+.byline {
+  animation: move-byline 10s linear infinite;
+}
+
+/* Keyframes */
+@keyframes star {
+  0% {
+    opacity: 0;
+    transform: scale(1.5) translateY(-0.75em);
   }
-  .wars {
-    animation: wars 10s ease-out infinite;
+  20% {
+    opacity: 1;
   }
-  .byline span {
-    animation: spin-letters 10s linear infinite;
+  89% {
+    opacity: 1;
+    transform: scale(1);
   }
-  .byline {
-    animation: move-byline 10s linear infinite;
+  100% {
+    opacity: 0;
+    transform: translateZ(-1000em);
   }
-  
-  /* Keyframes */
-  @keyframes star {
-    0% {
-      opacity: 0;
-      transform: scale(1.5) translateY(-0.75em);
-    }
-    20% {
-      opacity: 1;
-    }
-    89% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: translateZ(-1000em);
-    
-    }
+}
+
+@keyframes wars {
+  0% {
+    opacity: 0;
+    transform: scale(1.5) translateY(0.5em);
   }
-  
-  
-  @keyframes wars {
-    0% {
-      opacity: 0;
-      transform: scale(1.5) translateY(0.5em);
-    }
-    20% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: translateZ(-1000em);
-    }
+  20% {
+    opacity: 1;
   }
-  
-  @keyframes spin-letters {
-    0%, 10% {
-      opacity: 0;
-      transform: rotateY(90deg);
-    }
-    30% {
-      opacity: 1;
-    }
-    70%, 86% {
-      transform: rotateY(0);
-      opacity: 1;
-    }
-    95%, 100% {
-      opacity: 0;
-    }
+  90% {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  @keyframes move-byline {
-    0% {
-      transform: translateZ(5em);
-    }
-    100% {
-      transform: translateZ(0);
-    }
+  100% {
+    opacity: 0;
+    transform: translateZ(-1000em);
   }
-  
-  /* Make the 3D work on the container */
-  .starwars-demo {
-    perspective: 800px;
-    transform-style: preserve3d;
+}
+
+@keyframes spin-letters {
+  0%,
+  10% {
+    opacity: 0;
+    transform: rotateY(90deg);
   }
-  
-  /* General styles and layout */
-  /* body {
+  30% {
+    opacity: 1;
+  }
+  70%,
+  86% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes move-byline {
+  0% {
+    transform: translateZ(5em);
+  }
+  100% {
+    transform: translateZ(0);
+  }
+}
+
+/* Make the 3D work on the container */
+.starwars-demo {
+  perspective: 800px;
+  transform-style: preserve3d;
+}
+
+/* General styles and layout */
+/* body {
     background: #000 url(//cssanimation.rocks/demo/starwars/images/bg.jpg);
   } */
-  
- 
-  .starwars-demo {
-    height: 17em;
-    left: 50%;
-    position: absolute;
-    top: 53%;
-    transform: translate(-50%, -50%);
-    width: 34em;
-  }
-  
-  .byline span {
-    display: inline-block;
-  }
-  
-  img {
-    width: 100%;
-  }
-  
-  .star, .wars, .byline {
-    position: absolute;
-  }
-  
-  .star {
-    top: -0.75em;
-  }
-  
-  .wars {
-    bottom: -0.5em;
-  }
-  
-  .byline {
-    color: #fff;
-    font-family: "ITC Serif Gothic", Lato;
-    font-size: 2.25em;
-    left: -2em;
-    letter-spacing: 0.4em;
-    right: -2em;
-    text-align: center;
-    text-transform: uppercase;
-    top: 40%;
-  }
-  
-  /*** Media queries for adjusting to different screen sizes ***/
-  
-  @media only screen and (max-width: 600px) {
-    .starwars-demo {
-      font-size: 10px;
-    }
-  }
-  
-  @media only screen and (max-width: 480px) {
-    .starwars-demo {
-      font-size: 7px;
-    }
-  }
 
-  /* --------------Start Game----------- */
-  .start-game {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    color: #fff;
-  }
-  .start-game .start{
-    margin-top: 500px;
-  }
-
-
-  /* --------------End Game----------------- */
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  .end-game-box {
-    /* display: flex; */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    color: #fff;
-    background: #000 url(../textures/bg.jpg);
-  }
-  
-  .end-game-box .game-over{
-    padding: 20px;
-    width: 500px;
-    height: 300px;
-    text-align: center;
-  }
-
-  .end-game-box * {
-    margin: 0;
-    padding: 5px;
+.starwars-demo {
+  height: 17em;
+  left: 50%;
+  position: absolute;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  width: 34em;
 }
-  
-  .border-gradient {
-    border: 10px solid;
-    border-image-slice: 1;
-    border-width: 5px;
-    border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
-    border-radius: 13px;
+
+.byline span {
+  display: inline-block;
+}
+
+img {
+  width: 100%;
+}
+
+.star,
+.wars,
+.byline {
+  position: absolute;
+}
+
+.star {
+  top: -0.75em;
+}
+
+.wars {
+  bottom: -0.5em;
+}
+
+.byline {
+  color: #fff;
+  font-family: "ITC Serif Gothic", Lato;
+  font-size: 2.25em;
+  left: -2em;
+  letter-spacing: 0.4em;
+  right: -2em;
+  text-align: center;
+  text-transform: uppercase;
+  top: 40%;
+}
+
+/*** Media queries for adjusting to different screen sizes ***/
+
+@media only screen and (max-width: 600px) {
+  .starwars-demo {
+    font-size: 10px;
   }
-  
-  .bubbly-button {
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    display: inline-block;
-    font-size: 25px;
-    padding: 5px 20px ;
-    margin-top: 20px;
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #ff0081;
-    color: #fff;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
-    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5);
-    font-weight: bolder;
+}
+
+@media only screen and (max-width: 480px) {
+  .starwars-demo {
+    font-size: 7px;
   }
-  .bubbly-button:focus {
-    outline: 0;
+}
+
+/* --------------Start Game----------- */
+.start-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #fff;
+}
+.start-game .start {
+  margin-top: 500px;
+}
+
+/* --------------End Game----------------- */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+.end-game-box {
+  /* display: flex; */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #fff;
+  background: #000 url(../textures/starGame.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.end-game-box .game-over {
+  padding: 20px;
+  width: 500px;
+  height: 300px;
+  text-align: center;
+}
+
+.end-game-box * {
+  margin: 0;
+  padding: 5px;
+}
+
+.border-gradient {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+  border-radius: 13px;
+}
+
+@keyframes topBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+      40% 90%, 55% 90%, 70% 90%;
   }
-  .bubbly-button:before, .bubbly-button:after {
-    position: absolute;
-    content: '';
-    display: block;
-    width: 140%;
-    height: 100%;
-    left: -20%;
-    z-index: -1000;
-    transition: all ease-in-out 0.5s;
-    background-repeat: no-repeat;
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+      50% 50%, 65% 20%, 90% 30%;
   }
-  .bubbly-button:before {
-    display: none;
-    top: -75%;
-    background-image: radial-gradient(circle, #FF00FF 20%, transparent 20%), radial-gradient(circle, transparent 20%, #ff0081 20%, transparent 30%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%);
-    background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+      50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
   }
-  .bubbly-button:after {
-    display: none;
-    bottom: -75%;
-    background-image: radial-gradient(circle, #9370DB 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%), radial-gradient(circle, #ff0081 20%, transparent 20%);
-    background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+}
+@keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+      70% -10%, 70% 0%;
   }
-  .bubbly-button:active {
-    transform: scale(0.9);
-    background-color: #f60d54;
-    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+      105% 0%;
   }
-  .bubbly-button.animate:before {
-    display: block;
-    animation: topBubbles ease-in-out 0.75s forwards;
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+      110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
   }
-  .bubbly-button.animate:after {
-    display: block;
-    animation: bottomBubbles ease-in-out 0.75s forwards;
-  }
-  @keyframes topBubbles {
-    0% {
-      background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
-   }
-    50% {
-      background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
-   }
-    100% {
-      background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
-      background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
-   }
-  }
-  @keyframes bottomBubbles {
-    0% {
-      background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
-   }
-    50% {
-      background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
-   }
-    100% {
-      background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
-      background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
-   }
-  }
-  
+}
 
 /* uncopy */
-.uncopy{
+.uncopy {
   pointer-events: none;
 }
 
-  /* score */
+/* score */
 #center {
   transform-style: preserve-3d;
   position: absolute;
@@ -442,5 +397,66 @@ body{
   font-weight: 600;
   color: #753885;
 }
-  
-  
+/* button */
+.bubbly-button {
+  width: 200px;
+  height: 50px;
+  border: none;
+  outline: none;
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  font-size: 20px;
+  margin-top: 20px;
+  color: #fdf252;
+}
+
+.bubbly-button:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.bubbly-button:active {
+  color: #fff;
+}
+
+.bubbly-button:before {
+  opacity: 1;
+}
+
+.bubbly-button:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}

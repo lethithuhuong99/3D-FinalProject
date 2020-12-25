@@ -33,6 +33,8 @@ function showGame() {
         var scores =document.querySelector('#center');     
         scores.style.display = "inline";
 
+        document.getElementById("myAudio").pause();
+
         app();
     };   
 }
@@ -108,6 +110,7 @@ var app = function(){
     var maxPlanePos = 100;
     var isPlay = false;
     var planetInformation=[];
+    var checkSound='';
 
     /**
      * random munber between min and max
@@ -353,12 +356,56 @@ var app = function(){
                 break;
         }
     }
+
+    var listener = new THREE.AudioListener();
+    var audioLoader = new THREE.AudioLoader();
+    var playSound='';
+    var sound = new THREE.Audio( listener );
+    //sound 
+    var addSound = function(){
+        // create an AudioListener and add it to the camera
+        camera.add( listener );
+        // create a global audio source
+        var startSound = 'data/sounds/starGame.ogg';
+        var playGameSound = 'data/sounds/playGame.ogg';
+        var endSound = 'data/sounds/startGame.ogg';
+        
+        switch (checkSound) {
+            case 'start':
+                playSound = startSound;
+                break;
+            case 'play':
+                playSound = playGameSound;
+                break;
+            case 'end':
+                playSound = endSound;
+                break;
+            default:
+        }
+        console.log(checkSound);
+        // load a sound and set it as the Audio object's buffer
+        audioLoader.load(playSound , function( buffer ) {
+            sound.setBuffer( buffer );
+            sound.setLoop( true );
+            sound.setVolume( 0.5 );
+            sound.play();
+        });
+    }
+
+    var stopSound =  function(){
+        audioLoader.load(playSound , function( buffer ){
+            sound.setBuffer( buffer );
+            sound.setLoop( true );
+            sound.setVolume( 0.5 );
+            sound.stop();
+        });
+    }
     
     /**
      * init app
      */
     var init_app = function(){
-
+        checkSound = 'play';
         // create the sence
         scene = new THREE.Scene();
         // create an the local camera
@@ -394,9 +441,10 @@ var app = function(){
 
         //create plane
         createPlaneModel();
-
         // create first planet
-        createPlanet();     
+        createPlanet();  
+        //sound
+        addSound();   
     };
     
     /**
@@ -420,8 +468,11 @@ var app = function(){
         // check game over
         if(overGame){
             addInforPlanet();
-            // add sound
-            // addSound();
+            //stop sound of playGameSound
+            stopSound();
+            // add sound of endGame
+            checkSound = 'end';
+            addSound();
             // disable score box
             var scores =document.querySelector('#center');     
             scores.style.display = "none";

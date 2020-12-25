@@ -317,11 +317,16 @@ body{
   }
   
   .end-game-box .game-over{
-    /* border: 3px solid green;  */
+    padding: 20px;
     width: 500px;
-    height: 350px;
+    height: 300px;
     text-align: center;
   }
+
+  .end-game-box * {
+    margin: 0;
+    padding: 5px;
+}
   
   .border-gradient {
     border: 10px solid;

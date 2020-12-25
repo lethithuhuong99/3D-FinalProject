@@ -106,6 +106,7 @@ var app = function(){
     var listPlanet = [];
     var speed = 2;
     var speedPlanet = 10;
+    var speedCreateNewPlanet = -500
     var minPlanePos = -100;
     var maxPlanePos = 100;
     var isPlay = false;
@@ -456,7 +457,7 @@ var app = function(){
         updateSpeed();
 
         // create new planet
-        if(listPlanet[listPlanet.length-1].position.z > -500){
+        if(listPlanet[listPlanet.length-1].position.z > speedCreateNewPlanet){
             createPlanet();
         }
 

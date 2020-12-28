@@ -107,8 +107,8 @@ var app = function(){
     var speed = 2;
     var speedPlanet = 10;
     var speedCreateNewPlanet = -500
-    var minPlanePos = -50;
-    var maxPlanePos = 50;
+    var minPlanePos = -80;
+    var maxPlanePos = 80;
     var isPlay = false;
     var planetInformation=[];
     var checkSound='';
@@ -122,7 +122,9 @@ var app = function(){
     var isSlow = false;
     var createRandomSpeed;
 
-    //create Flash
+    /**
+     * create Flash
+     */
     var createFlash = function(){
         var flashCube = new THREE.BoxGeometry(15,15,15);
         var textureLoader = new THREE.TextureLoader();
@@ -136,7 +138,9 @@ var app = function(){
         listFlash.push(flash);
     }
 
-    //create Slow
+    /**
+     * create Slow
+     */
     var createSlow = function(){
         var slowCube = new THREE.BoxGeometry(15,15,15);
         var textureLoader = new THREE.TextureLoader();
@@ -150,64 +154,83 @@ var app = function(){
         listSlow.push(slow);
     }
 
-    //update Flash
+    /**
+     * update Flash
+     * @param {*} flash 
+     * @param {*} index 
+     */
     var update_flash = function(flash , index){
         flash.position.z += speedPlanet;
         flash.rotateY(0.01);
         flash.rotateX(0.01);
-        if(flash.position.z > positionPlane.z ){
-            // listFlash.splice(index,1);
-            // scene.remove(flash);
+        if(listFlash.length >= 2 & flash.position.z > positionPlane.z + 100){
+            listFlash.splice(index,1);
+            scene.remove(flash);
         }
     }
 
-    //update Slow
+    /**
+     * update Slow
+     * @param {*} slow 
+     * @param {*} index 
+     */
     var update_slow = function(slow , index){
         slow.rotateY(0.01);
         slow.rotateX(0.01);
         slow.position.z += speedPlanet;
-        if(slow.position.z > positionPlane.z){
-            // listSlow.splice(index,1);
-            // scene.remove(slow);
+        if(listSlow.length >= 2 && slow.position.z > positionPlane.z +100){
+            listSlow.splice(index,1);
+            scene.remove(slow);
         }
     }
 
-    //function create random slow and flash
+    /**
+     * function create random slow or flash speed
+     */
     var randomFlashOrSlow = function(){
         var flashAndSlow = ['Flash','Slow'];    
         setInterval(function(){
             createRandomSpeed = flashAndSlow[Math.floor(Math.random()*flashAndSlow.length)];
             eval('create' + createRandomSpeed + '()');
-        }, 6000);      
+        }, 10000);      
     }
 
+    /**
+     * check flash or slow
+     */
     var checkFlashOrSlow = function(){
         var distance;
         if(createRandomSpeed == 'Flash'){
-            distance = listFlash[0].position.distanceTo(positionPlane);
-            if(distance <30){
-                isFlash = true;
-                var goFlash = setInterval(function(){
-                    if (isFlash == false) {
-                        clearInterval(goFlash);
-                    }
-                    isFlash = false;
-                }, 5000); 
-            }
+            listFlash.forEach(flash => {
+                distance = flash.position.distanceTo(positionPlane);
+                if(distance <30){
+                    isFlash = true;
+                    var goFlash = setInterval(function(){
+                        if (isFlash == false) {
+                            clearInterval(goFlash);
+                        }
+                        isFlash = false;
+                    }, 3000); 
+                }
+            });
         }
-        else
         if (createRandomSpeed == "Slow"){
-            distance = listSlow[0].position.distanceTo(positionPlane);
-            if(distance <30 ){
-                isSlow = true;
-                var goSlow = setInterval(function(){
-                    if (isSlow == false) {
-                        clearInterval(goSlow);
-                    }
-                    isSlow = false;
-                }, 5000); 
-            }
+            listSlow.forEach(slow => {
+                distance = slow.position.distanceTo(positionPlane);
+                if(distance <30 ){
+                    isSlow = true;
+                    var goSlow = setInterval(function(){
+                        if (isSlow == false) {
+                            clearInterval(goSlow);
+                        }
+                        isSlow = false;
+                    }, 3000); 
+                }
+            });
         }
+
+        console.log("flash: ", isFlash);
+        console.log('slow: ', isSlow);
         
     }
 
@@ -324,8 +347,6 @@ var app = function(){
      */
     var isGameOver= function(){
         var distance = listPlanet[0].position.distanceTo(positionPlane);
-   
-        // console.log("position",distance);
         if(distance < 30){
             overGame=true;
         }else{
@@ -442,51 +463,50 @@ var app = function(){
      * update speed of planet and plane after 10 point
      */
     var updateSpeed = function(){
+        checkFlashOrSlow();
         if (isFlash){
             speedPlanet = 30 ;
             speed = 2.5;
             speedCreateNewPlanet = -450;
         }
-       else
-        if (isFlash){
-            speedPlanet = 2 ;
+        if (isSlow){
+            speedPlanet = 8 ;
             speed = 2.5;
-            speedCreateNewPlanet = -450; 
+            speedCreateNewPlanet = -450;
         }
-        else{    
-            switch (point) {
-                case 10:
-                    speedPlanet = 15;
-                    speed = 2.5;
-                    speedCreateNewPlanet = -450;
-                    break;
-                case 20:
-                    speedPlanet = 20;
-                    speed = 3;
-                    speedCreateNewPlanet = -400;
-                    break;
-                case 30:
-                    speedPlanet = 25;
-                    speed = 3.5;
-                    speedCreateNewPlanet = -350;
-                    break;
-
-                case 40:
-                    speedPlanet = 30;
-                    speed = 3.5;
-                    speedCreateNewPlanet = -300;
-                    break;
-
-                case 50:
-                    speedPlanet = 35;
-                    speed = 3.5;
-                    speedCreateNewPlanet = -250;
-                    break;
-            
-                default:
-                    break;
+        if (!isSlow && !isFlash){    
+            if (point >= 50){
+                speedPlanet = 35;
+                speed = 3.5;
+                speedCreateNewPlanet = -250;
+            }else
+            if (point >= 40){
+                speedPlanet = 30;
+                speed = 3.5;
+                speedCreateNewPlanet = -300;
+            }else
+            if (point >= 30){
+                speedPlanet = 25;
+                speed = 3.5;
+                speedCreateNewPlanet = -350;
+            }else
+            if (point >= 20){
+                speedPlanet = 20;
+                speed = 3;
+                speedCreateNewPlanet = -400;
+            }else
+            if (point >= 10){
+                speedPlanet = 15;
+                speed = 2.5;
+                speedCreateNewPlanet = -450;
+            }else
+            if (point >=0) {
+                speedPlanet = 10;
+                speed = 2;
+                speedCreateNewPlanet = -500
             }
         }
+        console.log("speedPlanet", speedPlanet);
     }
     
     /**
@@ -512,7 +532,6 @@ var app = function(){
                 break;
             default:
         }
-        console.log(checkSound);
         // load a sound and set it as the Audio object's buffer
         audioLoader.load(playSound , function( buffer ) {
             sound.setBuffer( buffer );
@@ -587,8 +606,6 @@ var app = function(){
 
         // update speed
         updateSpeed();
-
-        checkFlashOrSlow();
 
         // create new planet
         if(listPlanet[listPlanet.length-1].position.z > speedCreateNewPlanet){

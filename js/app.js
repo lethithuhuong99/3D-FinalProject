@@ -121,6 +121,44 @@ var app = function(){
     var isFlash = false;
     var isSlow = false;
     var createRandomSpeed;
+    var speedArray = [
+        {
+            point: 50,
+            speedPlanet : 35,
+            speed : 3.5,
+            speedCreateNewPlanet : -250,
+        },
+        {
+            point: 40,
+            speedPlanet : 30,
+            speed : 3.5,
+            speedCreateNewPlanet : -300
+        },
+        {
+            point: 30,
+            speedPlanet : 25,
+            speed : 3.5,
+            speedCreateNewPlanet : -350
+        },
+        {   
+            point: 20,
+            speedPlanet : 20,
+            speed : 3,
+            speedCreateNewPlanet : -400
+        },
+        {
+            point: 10,
+            speedPlanet : 15,
+            speed : 2.5,
+            speedCreateNewPlanet : -450
+        },
+        {
+            point: 0,
+            speedPlanet : 10,
+            speed : 2,
+            speedCreateNewPlanet : -500
+        },
+    ]
 
     /**
      * create Flash
@@ -228,10 +266,6 @@ var app = function(){
                 }
             });
         }
-
-        console.log("flash: ", isFlash);
-        console.log('slow: ', isSlow);
-        
     }
 
     /**
@@ -465,48 +499,35 @@ var app = function(){
     var updateSpeed = function(){
         checkFlashOrSlow();
         if (isFlash){
-            speedPlanet = 30 ;
-            speed = 2.5;
-            speedCreateNewPlanet = -450;
-        }
-        if (isSlow){
-            speedPlanet = 8 ;
-            speed = 2.5;
-            speedCreateNewPlanet = -450;
-        }
-        if (!isSlow && !isFlash){    
-            if (point >= 50){
-                speedPlanet = 35;
-                speed = 3.5;
-                speedCreateNewPlanet = -250;
-            }else
-            if (point >= 40){
-                speedPlanet = 30;
-                speed = 3.5;
-                speedCreateNewPlanet = -300;
-            }else
-            if (point >= 30){
-                speedPlanet = 25;
-                speed = 3.5;
-                speedCreateNewPlanet = -350;
-            }else
-            if (point >= 20){
-                speedPlanet = 20;
-                speed = 3;
-                speedCreateNewPlanet = -400;
-            }else
-            if (point >= 10){
-                speedPlanet = 15;
-                speed = 2.5;
-                speedCreateNewPlanet = -450;
-            }else
-            if (point >=0) {
-                speedPlanet = 10;
-                speed = 2;
-                speedCreateNewPlanet = -500
+            for(i=0; i<=speedArray.length-1;i++){
+                if(point >= speedArray[i].point){
+                    speedPlanet = speedArray[i].speedPlanet + 10;
+                    speed = speedArray[i].speed;
+                    speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
+                    break;
+                }
             }
         }
-        console.log("speedPlanet", speedPlanet);
+        if (isSlow){
+            for(i=0; i<=speedArray.length-1;i++){
+                if(point >= speedArray[i].point){
+                    speedPlanet = speedArray[i].speedPlanet - 5;
+                    speed = speedArray[i].speed;
+                    speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
+                    break;
+                }
+            }
+        }
+        if (!isSlow && !isFlash){    
+            for(i=0; i<=speedArray.length-1;i++){
+                if(point >= speedArray[i].point){
+                    speedPlanet = speedArray[i].speedPlanet;
+                    speed = speedArray[i].speed;
+                    speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
+                    break;
+                }
+            }
+        }
     }
     
     /**

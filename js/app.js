@@ -108,6 +108,8 @@ var app = function(){
     var speedCreateNewPlanet = -500
     var minPlanePos = -80;
     var maxPlanePos = 80;
+    var minPlanetPos = -60;
+    var maxPlanetPos = 60;
     var isPlay = false;
     var planetInformation=[];
     var checkSound='';
@@ -325,7 +327,7 @@ var app = function(){
     spherePlanet = new THREE.Mesh(sphereGeometry, material);  
     scene.add(spherePlanet);   
     spherePlanet.position.z = -1500;
-    spherePlanet.position.x = getRndInteger(minPlanePos, maxPlanePos);
+    spherePlanet.position.x = getRndInteger(minPlanetPos, maxPlanetPos);
     spherePlanet.position.y = 50;
     listPlanet.push(spherePlanet);
 }

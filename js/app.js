@@ -126,37 +126,37 @@ var app = function(){
             point: 50,
             speedPlanet : 35,
             speed : 3.5,
-            speedCreateNewPlanet : -250,
+            speedCreateNewPlanet : -800
         },
         {
             point: 40,
             speedPlanet : 30,
             speed : 3.5,
-            speedCreateNewPlanet : -300
+            speedCreateNewPlanet : -800
         },
         {
             point: 30,
             speedPlanet : 25,
             speed : 3.5,
-            speedCreateNewPlanet : -350
+            speedCreateNewPlanet : -800
         },
         {   
             point: 20,
             speedPlanet : 20,
             speed : 3,
-            speedCreateNewPlanet : -400
+            speedCreateNewPlanet : -800
         },
         {
             point: 10,
             speedPlanet : 15,
             speed : 2.5,
-            speedCreateNewPlanet : -450
+            speedCreateNewPlanet : -800
         },
         {
             point: 0,
             speedPlanet : 10,
             speed : 2,
-            speedCreateNewPlanet : -500
+            speedCreateNewPlanet : -800
         },
     ]
 
@@ -315,7 +315,7 @@ var app = function(){
         var material =  new THREE.MeshPhongMaterial({map: texture});   
         spherePlanet = new THREE.Mesh(sphereGeometry, material);  
         scene.add(spherePlanet);   
-        spherePlanet.position.z = -2000;
+        spherePlanet.position.z = -1500;
         spherePlanet.position.x = getRndInteger(minPlanePos, maxPlanePos);
         spherePlanet.position.y = 50;
         listPlanet.push(spherePlanet);
@@ -331,7 +331,7 @@ var app = function(){
         // count point and remove planet when plane go over one planet
         if(planet.position.z > positionPlane.z + 100){
             point+=1;
-            document.getElementById("score").innerHTML ='<i class="fas fa-globe-asia"></i> ' + point ;
+            document.getElementById("score").innerHTML = point ;
             listPlanet.splice(index,1);
             scene.remove(planet);
         }

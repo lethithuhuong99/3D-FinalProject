@@ -86,7 +86,6 @@ var app = function(){
     for (var i = 0; i < bubblyButtons.length; i++) {
     bubblyButtons[i].addEventListener('click', animateButton, false);
     }
-
     // --------------------------3D-------------------------
     // initiallize scene, camera, objects and renderer
 
@@ -116,6 +115,8 @@ var app = function(){
     var audioLoader = new THREE.AudioLoader();
     var playSound='';
     var sound = new THREE.Audio( listener );
+    var soundFlashOrSlow = new THREE.Audio( listener );
+
     var listFlash = [];
     var listSlow = [];
     var isFlash = false;
@@ -228,8 +229,11 @@ var app = function(){
     var randomFlashOrSlow = function(){
         var flashAndSlow = ['Flash','Slow'];    
         setInterval(function(){
-            createRandomSpeed = flashAndSlow[Math.floor(Math.random()*flashAndSlow.length)];
+            if(isPlay){
+                createRandomSpeed = flashAndSlow[Math.floor(Math.random()*flashAndSlow.length)];
             eval('create' + createRandomSpeed + '()');
+            }
+            
         }, 10000);      
     }
 
@@ -239,10 +243,13 @@ var app = function(){
     var checkFlashOrSlow = function(){
         var distance;
         if(createRandomSpeed == 'Flash'){
-            listFlash.forEach(flash => {
+            listFlash.forEach((flash,index) => {
                 distance = flash.position.distanceTo(positionPlane);
                 if(distance <30){
+                    playSoundFlashOrSlow();
                     isFlash = true;
+                    listFlash.splice(index,1);
+                    scene.remove(flash);
                     var goFlash = setInterval(function(){
                         if (isFlash == false) {
                             clearInterval(goFlash);
@@ -253,10 +260,13 @@ var app = function(){
             });
         }
         if (createRandomSpeed == "Slow"){
-            listSlow.forEach(slow => {
+            listSlow.forEach((slow,index) => {
                 distance = slow.position.distanceTo(positionPlane);
                 if(distance <30 ){
+                    playSoundFlashOrSlow();
                     isSlow = true;
+                    listFlash.splice(index,1);
+                    scene.remove(slow);
                     var goSlow = setInterval(function(){
                         if (isSlow == false) {
                             clearInterval(goSlow);
@@ -303,402 +313,410 @@ var app = function(){
             scene.remove(star);
         }
     }
-
     /**
      *create planet
     */ 
-    var createPlanet = function(){
-        var sphereGeometry = new THREE.SphereGeometry(13,13,13);
-        var textureLoader = new THREE.TextureLoader();
-        var listTextures = ['data/textures/planet/sun.jpg','data/textures/planet/pluto.jpg','data/textures/planet/jupiter.jpg' ,'data/textures/planet/neptune.jpg','data/textures/planet/venus.jpg'  ];
-        var texture = textureLoader.load(listTextures[Math.floor(Math.random()*listTextures.length)]);
-        var material =  new THREE.MeshPhongMaterial({map: texture});   
-        spherePlanet = new THREE.Mesh(sphereGeometry, material);  
-        scene.add(spherePlanet);   
-        spherePlanet.position.z = -1500;
-        spherePlanet.position.x = getRndInteger(minPlanePos, maxPlanePos);
-        spherePlanet.position.y = 50;
-        listPlanet.push(spherePlanet);
-    }
+   var createPlanet = function(){
+    var sphereGeometry = new THREE.SphereGeometry(13,13,13);
+    var textureLoader = new THREE.TextureLoader();
+    var listTextures = ['data/textures/planet/sun.jpg','data/textures/planet/pluto.jpg','data/textures/planet/jupiter.jpg' ,'data/textures/planet/neptune.jpg','data/textures/planet/venus.jpg'  ];
+    var texture = textureLoader.load(listTextures[Math.floor(Math.random()*listTextures.length)]);
+    var material =  new THREE.MeshPhongMaterial({map: texture});   
+    spherePlanet = new THREE.Mesh(sphereGeometry, material);  
+    scene.add(spherePlanet);   
+    spherePlanet.position.z = -1500;
+    spherePlanet.position.x = getRndInteger(minPlanePos, maxPlanePos);
+    spherePlanet.position.y = 50;
+    listPlanet.push(spherePlanet);
+}
 
-    /**
-     * update planet
-     * @param {*} planet 
-     * @param {*} index 
-     */
-    var update_planet = function(planet , index){
-        planet.position.z += speedPlanet;
-        // count point and remove planet when plane go over one planet
-        if(planet.position.z > positionPlane.z + 100){
-            point+=1;
-            document.getElementById("score").innerHTML = point ;
-            listPlanet.splice(index,1);
-            scene.remove(planet);
-        }
+/**
+ * update planet
+ * @param {*} planet 
+ * @param {*} index 
+ */
+var update_planet = function(planet , index){
+    planet.position.z += speedPlanet;
+    // count point and remove planet when plane go over one planet
+    if(planet.position.z > positionPlane.z + 100){
+        point+=1;
+        document.getElementById("score").innerHTML = point ;
+        listPlanet.splice(index,1);
+        scene.remove(planet);
     }
+}
 
-    /**
-     * create model plane
-     */
-    var createPlaneModel = function(){
-        modelLoader = new THREE.GLTFLoader();
-        modelLoader.load('models/plane1/scene.gltf', function(gltf){
-            plane = gltf.scene;
-            plane.rotation.y = MY_LIBS.degToRad(90);
-            plane.position.z = 800;
-            plane.position.y = 50;
-            plane.scale.set(5,5,5);
-            // plane.position.x = 6050;
-            scene.add(plane);
-            mixerPlane = new THREE.AnimationMixer(plane);
-            gltf.animations.forEach((clip) => {
-                mixerPlane.clipAction(clip).play();
-            });
+/**
+ * create model plane
+ */
+var createPlaneModel = function(){
+    modelLoader = new THREE.GLTFLoader();
+    modelLoader.load('models/plane1/scene.gltf', function(gltf){
+        plane = gltf.scene;
+        plane.rotation.y = MY_LIBS.degToRad(90);
+        plane.position.z = 800;
+        plane.position.y = 50;
+        plane.scale.set(5,5,5);
+        // plane.position.x = 6050;
+        scene.add(plane);
+        mixerPlane = new THREE.AnimationMixer(plane);
+        gltf.animations.forEach((clip) => {
+            mixerPlane.clipAction(clip).play();
         });
+    });
+}
+
+/**
+ * add planet information in end game box
+ */
+var addInforPlanet = function(){
+    planetInformation=[
+        "Mercury is the smallest and closest planet to the sun in the Solar System. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the planets in the Solar System. It is named after the Greek god Hermes (Ερμής), translated into Latin Mercurius Mercury, god of commerce, messenger of the gods, mediator between gods and mortals.",
+        "Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty. As the second-brightest natural object in Earth's night sky after the Moon, Venus can cast shadows and can be, on rare occasion, visible to the naked eye in broad daylight.",
+        "Earth is the third planet from the Sun and the only astronomical object known to harbor life. About 29% of Earth's surface is land consisting of continents and islands. The remaining 71% is covered with water, mostly by oceans but also by lakes, rivers and other fresh water, which together constitute the hydrosphere.",
+        "Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury. In English, Mars carries the name of the Roman god of war and is often referred to as the 'Red Planet'. The latter refers to the effect of the iron oxide prevalent on Mars's surface, which gives it a reddish appearance distinctive among the astronomical bodies visible to the naked eye.",
+        "Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky and has been known to ancient civilizations since before recorded history.",
+        "Neptune is the eighth and farthest-known Solar planet from the Sun. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. It is 17 times the mass of Earth, slightly more massive than its near-twin Uranus."
+    ]
+
+    // get point
+    document.getElementById("point").innerHTML = point;
+    // get infor planet
+    document.getElementById("information").innerHTML = planetInformation[Math.floor(Math.random()*planetInformation.length)];
+} 
+
+/**
+ * check game over
+ */
+var isGameOver= function(){
+    var distance = listPlanet[0].position.distanceTo(positionPlane);
+    if(distance < 30){
+        overGame=true;
+    }else{
+        overGame=false;
     }
+}
 
-    /**
-     * add planet information in end game box
-     */
-    var addInforPlanet = function(){
-        planetInformation=[
-            "Mercury is the smallest and closest planet to the sun in the Solar System. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the planets in the Solar System. It is named after the Greek god Hermes (Ερμής), translated into Latin Mercurius Mercury, god of commerce, messenger of the gods, mediator between gods and mortals.",
-            "Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty. As the second-brightest natural object in Earth's night sky after the Moon, Venus can cast shadows and can be, on rare occasion, visible to the naked eye in broad daylight.",
-            "Earth is the third planet from the Sun and the only astronomical object known to harbor life. About 29% of Earth's surface is land consisting of continents and islands. The remaining 71% is covered with water, mostly by oceans but also by lakes, rivers and other fresh water, which together constitute the hydrosphere.",
-            "Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury. In English, Mars carries the name of the Roman god of war and is often referred to as the 'Red Planet'. The latter refers to the effect of the iron oxide prevalent on Mars's surface, which gives it a reddish appearance distinctive among the astronomical bodies visible to the naked eye.",
-            "Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky and has been known to ancient civilizations since before recorded history.",
-            "Neptune is the eighth and farthest-known Solar planet from the Sun. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. It is 17 times the mass of Earth, slightly more massive than its near-twin Uranus."
-        ]
+/**
+ * handling Play again button
+ */
+var playAgain = function(){
+    document.querySelector('#play-again').onclick = function() {playGameAgain()};
+    function playGameAgain() {
+        var loadEndGameBox = document.querySelector('.end-game-box');
+        loadEndGameBox.style.display= "none";
+        location.reload();
+    };
+}
 
-        // get point
-        document.getElementById("point").innerHTML = point;
-        // get infor planet
-        document.getElementById("information").innerHTML = planetInformation[Math.floor(Math.random()*planetInformation.length)];
-    } 
-    
-    /**
-     * check game over
-     */
-    var isGameOver= function(){
-        var distance = listPlanet[0].position.distanceTo(positionPlane);
-        if(distance < 30){
-            overGame=true;
-        }else{
-            overGame=false;
+/**
+ * model animate
+ */
+function animate() {
+    const delta = clock.getDelta();
+    // mixerPlane.update(delta);
+};
+
+/**
+ * move the obj left
+ */
+var moveL=function(){
+    plane.position.x-= speed;
+    plane.rotateZ(0.01);
+}
+
+/**
+ * move the obj right
+ */
+var moveR=function(){
+        plane.position.x+= speed;
+        plane.rotateZ(-0.01);
+}
+
+/**
+ * move the obj backward
+ */
+var moveF=function(){
+    plane.position.z -= speed;
+}
+
+/**
+ * move the obj forward
+ */
+var moveB=function(){
+    plane.position.z += speed;
+}
+
+/**
+ * on Key Down
+ * @param {*} event 
+ */
+var onKeyDown = function ( event ) {
+    isPlay = true;
+    switch ( event.keyCode ) {
+        case 38: // up
+        case 87: // w
+            moveForward = true;
+            break;
+        case 37: // left
+        case 65: // a
+            moveLeft = true; 
+            break;
+        case 40: // down
+        case 83: // s
+            moveBackward = true;
+            break;
+        case 39: // right
+        case 68: // d
+            moveRight = true;
+            break;
+    }
+};
+
+/**
+ * on key up
+ * @param {*} event 
+ */
+var onKeyUp = function ( event ) {
+    switch( event.keyCode ) {
+        case 38: // up
+        case 87: // w
+            moveForward = false;
+            break;
+        case 37: // left
+        case 65: // a
+            moveLeft = false;
+            plane.position.x += speed;
+            break;
+        case 40: // down
+        case 83: // s
+            moveBackward = false;
+            break;
+        case 39: // right
+        case 68: // d
+            moveRight = false;
+            plane.position.x -= speed;
+            break;
+    }
+};
+document.addEventListener( 'keyup', onKeyUp, false );
+document.addEventListener('keydown', onKeyDown, false);
+
+/**
+ * update speed of planet and plane after 10 point
+ */
+var updateSpeed = function(){
+    checkFlashOrSlow();
+    if (isFlash){
+        for(i=0; i<=speedArray.length-1;i++){
+            if(point >= speedArray[i].point){
+                speedPlanet = speedArray[i].speedPlanet + 10;
+                speed = speedArray[i].speed;
+                speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
+                break;
+            }
         }
     }
+    if (isSlow){
+        for(i=0; i<=speedArray.length-1;i++){
+            if(point >= speedArray[i].point){
+                speedPlanet = speedArray[i].speedPlanet - 5;
+                speed = speedArray[i].speed;
+                speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
+                break;
+            }
+        }
+    }
+    if (!isSlow && !isFlash){    
+        for(i=0; i<=speedArray.length-1;i++){
+            if(point >= speedArray[i].point){
+                speedPlanet = speedArray[i].speedPlanet;
+                speed = speedArray[i].speed;
+                speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
+                break;
+            }
+        }
+    }
+}
 
-    /**
-     * handling Play again button
-     */
-    var playAgain = function(){
-        document.querySelector('#play-again').onclick = function() {playGameAgain()};
-        function playGameAgain() {
-            var loadEndGameBox = document.querySelector('.end-game-box');
-            loadEndGameBox.style.display= "none";
-            location.reload();
+/**
+ * add sound
+ */
+var addSound = function(){
+    // create an AudioListener and add it to the camera
+    camera.add( listener );
+    // create a global audio source
+    var playGameSound = 'data/sounds/playGame.ogg';
+    var endSound = 'data/sounds/startGame.ogg';
+
+    switch (checkSound) {
+        case 'play':
+            playSound = playGameSound;
+            break;
+            console.log('aaaaa');
+        case 'end':
+            playSound = endSound;
+            break;
+        default:
+    }
+    // load a sound and set it as the Audio object's buffer
+    audioLoader.load(playSound , function( buffer ) {
+        sound.setBuffer( buffer );
+        sound.setLoop( true );
+        sound.setVolume( 0.2 );
+        sound.play();
+    });
+}
+
+/**
+ * stop sound
+ */
+var stopSound =  function(){
+    audioLoader.load(playSound , function( buffer ){
+        sound.setBuffer( buffer );
+        sound.setLoop( true );
+        sound.setVolume( 0.5 );
+        sound.stop();
+    });
+}
+
+var playSoundFlashOrSlow =  function(){
+    var flashOrSlowSound = 'data/sounds/getFlashorSlow.ogg';
+    audioLoader.load(flashOrSlowSound , function( buffer ){
+        soundFlashOrSlow.setBuffer( buffer );
+        soundFlashOrSlow.setLoop( false );
+        soundFlashOrSlow.setVolume( 0.9 );
+        soundFlashOrSlow.play();
+    });
+}
+
+/**
+ * init app
+ */
+var init_app = function(){
+    checkSound = 'play';
+    // create the sence
+    scene = new THREE.Scene();
+    // create an the local camera
+    var canvasWidth = window.innerWidth;
+    var canvasHeight = window.innerHeight;
+    var fieldfOfViewY = 30, aspectRatio = canvasWidth/ canvasHeight, near=1.0, far=5000;
+    camera = new THREE.PerspectiveCamera(fieldfOfViewY, aspectRatio, near, far);
+    scene.updateMatrixWorld(true);
+    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.TextureLoader().load("data/textures/background.jpg");
+    camera.position.z = 1080;
+    camera.position.y = 70;
+
+
+    renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(canvasWidth, canvasHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // cái này để điều khiển được model của mình. Phải tạo renderer trước ở trên để nó hiểu renderer.domElement
+    // var controls = new THREE.OrbitControls( camera, renderer.domElement);
+    // // controls.minDistance=-700;
+    // // controls.maxDistance=2000;  
+    // controls.update();
+    // controls.addEventListener('change', renderer);
+
+    // create light
+    directionLight = new THREE.DirectionalLight(0xc4c4c4,2);
+    directionLight.position.set(0,300,500);
+    scene.add(directionLight);
+    directionLight1 = new THREE.DirectionalLight(0xc4c4c4,2);
+    directionLight1.position.set(0,300,-900);
+    scene.add(directionLight1);
+
+    //create plane
+    createPlaneModel();
+    // create first planet
+    createPlanet();  
+    //sound
+    addSound();   
+};
+
+/**
+ * main loop
+ */
+var mainLoop = function(){
+
+    // update speed
+    updateSpeed();
+
+    // create new planet
+    if(listPlanet[listPlanet.length-1].position.z > speedCreateNewPlanet){
+        createPlanet();
+    }
+   
+
+    // update planet
+    if(isPlay){
+        listPlanet.forEach(update_planet);
+        listFlash.forEach(update_flash);
+        listSlow.forEach(update_slow);
+    }
+    
+    // check game over
+    if(overGame){
+        addInforPlanet();
+        //stop sound of playGameSound
+        stopSound();
+        // add sound of endGame
+        checkSound = 'end';
+        addSound();
+        // disable score box
+        var scores =document.querySelector('#center');     
+        scores.style.display = "none";
+        // display end game box
+        var loadEndGameBox = document.querySelector('.end-game-box');
+        loadEndGameBox.style.display= "flex";
+        // click to play game again
+        playAgain();
+        
+    }else{
+        isGameOver();
+        requestAnimationFrame(mainLoop);
+    }
+
+    //get position plane model
+    positionPlane.setFromMatrixPosition(plane.matrixWorld);
+
+    //random background star
+    let rand = Math.random();
+    if(rand < 1000){
+        createStarBackground();
+    }
+
+    // update background
+    starBackground.forEach(update_star);
+    
+    //animate function
+    animate();
+    renderer.render(scene,camera);
+    spherePlanet.position.z += 0.02;
+
+    // moving plane
+    if (plane.position.x >= minPlanePos && plane.position.x <= maxPlanePos) {
+        // if ( moveForward ) {
+        //     moveF();
+        // };
+        // if ( moveBackward ) {
+        //     moveB();
+        // };
+        if ( moveLeft ) {
+            moveL();
+        };
+        if ( moveRight ) {
+            moveR();
         };
     }
-
-    /**
-     * model animate
-     */
-    function animate() {
-        const delta = clock.getDelta();
-        // mixerPlane.update(delta);
-    };
-
-    /**
-     * move the obj left
-     */
-    var moveL=function(){
-        plane.position.x-= speed;
-        plane.rotateZ(0.01);
-    }
-    
-    /**
-     * move the obj right
-     */
-    var moveR=function(){
-            plane.position.x+= speed;
-            plane.rotateZ(-0.01);
-    }
-
-    /**
-     * move the obj backward
-     */
-    var moveF=function(){
-        plane.position.z -= speed;
-    }
-
-    /**
-     * move the obj forward
-     */
-    var moveB=function(){
-        plane.position.z += speed;
-    }
-
-    /**
-     * on Key Down
-     * @param {*} event 
-     */
-    var onKeyDown = function ( event ) {
-        isPlay = true;
-        switch ( event.keyCode ) {
-            case 38: // up
-            case 87: // w
-                moveForward = true;
-                break;
-            case 37: // left
-            case 65: // a
-                moveLeft = true; 
-                break;
-            case 40: // down
-            case 83: // s
-                moveBackward = true;
-                break;
-            case 39: // right
-            case 68: // d
-                moveRight = true;
-                break;
-        }
-    };
-
-    /**
-     * on key up
-     * @param {*} event 
-     */
-    var onKeyUp = function ( event ) {
-        switch( event.keyCode ) {
-            case 38: // up
-            case 87: // w
-                moveForward = false;
-                break;
-            case 37: // left
-            case 65: // a
-                moveLeft = false;
-                plane.position.x += speed;
-                break;
-            case 40: // down
-            case 83: // s
-                moveBackward = false;
-                break;
-            case 39: // right
-            case 68: // d
-                moveRight = false;
-                plane.position.x -= speed;
-                break;
-        }
-    };
-    document.addEventListener( 'keyup', onKeyUp, false );
-    document.addEventListener('keydown', onKeyDown, false);
-
-    /**
-     * update speed of planet and plane after 10 point
-     */
-    var updateSpeed = function(){
-        checkFlashOrSlow();
-        if (isFlash){
-            for(i=0; i<=speedArray.length-1;i++){
-                if(point >= speedArray[i].point){
-                    speedPlanet = speedArray[i].speedPlanet + 10;
-                    speed = speedArray[i].speed;
-                    speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
-                    break;
-                }
-            }
-        }
-        if (isSlow){
-            for(i=0; i<=speedArray.length-1;i++){
-                if(point >= speedArray[i].point){
-                    speedPlanet = speedArray[i].speedPlanet - 5;
-                    speed = speedArray[i].speed;
-                    speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
-                    break;
-                }
-            }
-        }
-        if (!isSlow && !isFlash){    
-            for(i=0; i<=speedArray.length-1;i++){
-                if(point >= speedArray[i].point){
-                    speedPlanet = speedArray[i].speedPlanet;
-                    speed = speedArray[i].speed;
-                    speedCreateNewPlanet = speedArray[i].speedCreateNewPlanet;
-                    break;
-                }
-            }
-        }
-    }
-    
-    /**
-     * add sound
-     */
-    var addSound = function(){
-        // create an AudioListener and add it to the camera
-        camera.add( listener );
-        // create a global audio source
-        var startSound = 'data/sounds/starGame.ogg';
-        var playGameSound = 'data/sounds/playGame.ogg';
-        var endSound = 'data/sounds/startGame.ogg';
-        
-        switch (checkSound) {
-            case 'start':
-                playSound = startSound;
-                break;
-            case 'play':
-                playSound = playGameSound;
-                break;
-            case 'end':
-                playSound = endSound;
-                break;
-            default:
-        }
-        // load a sound and set it as the Audio object's buffer
-        audioLoader.load(playSound , function( buffer ) {
-            sound.setBuffer( buffer );
-            sound.setLoop( true );
-            sound.setVolume( 0.5 );
-            sound.play();
-        });
-    }
-
-    /**
-     * stop sound
-     */
-    var stopSound =  function(){
-        audioLoader.load(playSound , function( buffer ){
-            sound.setBuffer( buffer );
-            sound.setLoop( true );
-            sound.setVolume( 0.5 );
-            sound.stop();
-        });
-    }
-    
-    /**
-     * init app
-     */
-    var init_app = function(){
-        checkSound = 'play';
-        // create the sence
-        scene = new THREE.Scene();
-        // create an the local camera
-        var canvasWidth = window.innerWidth;
-        var canvasHeight = window.innerHeight;
-        var fieldfOfViewY = 30, aspectRatio = canvasWidth/ canvasHeight, near=1.0, far=5000;
-        camera = new THREE.PerspectiveCamera(fieldfOfViewY, aspectRatio, near, far);
-        scene.updateMatrixWorld(true);
-        scene.background = new THREE.Color(0x000000);
-        scene.background = new THREE.TextureLoader().load("data/textures/background.jpg");
-        camera.position.z = 1080;
-        camera.position.y = 70;
-
-
-        renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setSize(canvasWidth, canvasHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // cái này để điều khiển được model của mình. Phải tạo renderer trước ở trên để nó hiểu renderer.domElement
-        // var controls = new THREE.OrbitControls( camera, renderer.domElement);
-        // // controls.minDistance=-700;
-        // // controls.maxDistance=2000;  
-        // controls.update();
-        // controls.addEventListener('change', renderer);
-
-        // create light
-        directionLight = new THREE.DirectionalLight(0xc4c4c4,2);
-        directionLight.position.set(0,300,500);
-        scene.add(directionLight);
-        directionLight1 = new THREE.DirectionalLight(0xc4c4c4,2);
-        directionLight1.position.set(0,300,-900);
-        scene.add(directionLight1);
-
-        //create plane
-        createPlaneModel();
-        // create first planet
-        createPlanet();  
-        //sound
-        addSound();   
-    };
-    
-    /**
-     * main loop
-     */
-    var mainLoop = function(){
-
-        // update speed
-        updateSpeed();
-
-        // create new planet
-        if(listPlanet[listPlanet.length-1].position.z > speedCreateNewPlanet){
-            createPlanet();
-        }
-       
-
-        // update planet
-        if(isPlay){
-            listPlanet.forEach(update_planet);
-            listFlash.forEach(update_flash);
-            listSlow.forEach(update_slow);
-        }
-        
-        // check game over
-        if(overGame){
-            addInforPlanet();
-            //stop sound of playGameSound
-            stopSound();
-            // add sound of endGame
-            checkSound = 'end';
-            addSound();
-            // disable score box
-            var scores =document.querySelector('#center');     
-            scores.style.display = "none";
-            // display end game box
-            var loadEndGameBox = document.querySelector('.end-game-box');
-            loadEndGameBox.style.display= "flex";
-            // click to play game again
-            playAgain();
-            
-        }else{
-            isGameOver();
-            requestAnimationFrame(mainLoop);
-        }
-
-        //get position plane model
-        positionPlane.setFromMatrixPosition(plane.matrixWorld);
-
-        //random background star
-        let rand = Math.random();
-        if(rand < 1000){
-            createStarBackground();
-        }
-
-        // update background
-        starBackground.forEach(update_star);
-        
-        //animate function
-        animate();
-        renderer.render(scene,camera);
-        spherePlanet.position.z += 0.02;
-
-        // moving plane
-        if (plane.position.x >= minPlanePos && plane.position.x <= maxPlanePos) {
-            // if ( moveForward ) {
-            //     moveF();
-            // };
-            // if ( moveBackward ) {
-            //     moveB();
-            // };
-            if ( moveLeft ) {
-                moveL();
-            };
-            if ( moveRight ) {
-                moveR();
-            };
-        }
-    };
+};
 
     progress();
     init_app();
     randomFlashOrSlow();
     mainLoop();
 }
+
+

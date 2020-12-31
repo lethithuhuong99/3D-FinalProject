@@ -321,12 +321,14 @@ body {
   background: #000 url(../textures/starGame.gif);
   background-repeat: no-repeat;
   background-size: cover;
+  position: absolute;
+  width: 100%;
 }
 
 .end-game-box .game-over {
   padding: 20px;
   width: 500px;
-  height: 300px;
+  height: 340px;
   text-align: center;
 }
 
@@ -388,15 +390,33 @@ body {
   transform: translateY(-50%) translateX(-50%);
   display: none;
   padding: 10px 20px;
-  background-color: #fdf1fa;
+  /* background-color: #fdf1fa; */
   border-radius: 5px;
 }
+
 #score {
+  margin-top: 30px;
   transform-style: preserve-3d;
-  font-size: 30px;
+  font-size: 60px;
   font-weight: 600;
   color: #753885;
 }
+
+.neon {
+  color: #fff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #0ff,
+    0 0 80px #0ff, 0 0 90px #0ff, 0 0 100px #0ff, 0 0 150px #0ff;
+}
+
+body {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #010a00;
+  background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
+  font-family: "Goldman", cursive;
+}
+
 /* button */
 .bubbly-button {
   width: 200px;
@@ -411,6 +431,7 @@ body {
   font-size: 20px;
   margin-top: 20px;
   color: #fdf252;
+  font-family: "Goldman", cursive;
 }
 
 .bubbly-button:before {

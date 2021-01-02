@@ -4,3 +4,5 @@
 3. cd 3D-FinalProject
 4. $ git checkout master
 5. run file index.html
+
+https://lethithuhuong99.github.io/3D-FinalProject/

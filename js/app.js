@@ -53,23 +53,23 @@ var app = function(){
         var percent = document.querySelector('.percent');
         loadingSection.style.display = "inline";
 
-         // countdown PlayGame
-        //  var timeleft = 2;
-        //  var loading = setInterval(function(){
-        //      if(timeleft < 0){
-        //          loadingSection.style.display= "none";
-        //          clearInterval(loading);
-        //      }
-        //      percent.textContent = timeleft;
-        //      timeleft -= 1;
-        //  }, 1000);
+        //  countdown PlayGame
+         var timeleft = 2;
+         var loading = setInterval(function(){
+             if(timeleft < 0){
+                 loadingSection.style.display= "none";
+                 clearInterval(loading);
+             }
+             percent.textContent = timeleft;
+             timeleft -= 1;
+         }, 1000);
 
-        manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-            percent.textContent = Math.ceil((itemsLoaded/itemsTotal)*100) + ' %';
-        }
-         manager.onLoad = function ( ) {
-            loadingSection.style.display= "none";
-        }    
+        // manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+        //     percent.textContent = Math.ceil((itemsLoaded/itemsTotal)*100) + ' %';
+        // }
+        //  manager.onLoad = function ( ) {
+        //     loadingSection.style.display= "none";
+        // }    
 
     }
 

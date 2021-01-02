@@ -69,6 +69,8 @@ var app = function(){
         }
          manager.onLoad = function ( ) {
             loadingSection.style.display= "none";
+            document.querySelector('.velocity').style.display = "inline";     
+       
         }    
 
     }
@@ -125,12 +127,13 @@ var app = function(){
     var playSound='';
     var sound = new THREE.Audio( listener );
     var soundFlashOrSlow = new THREE.Audio( listener );
-
     var listFlash = [];
     var listSlow = [];
     var isFlash = false;
     var isSlow = false;
     var createRandomSpeed;
+    var endGamePoint = 100;
+
     
     var speedArray = [
         {
@@ -350,7 +353,7 @@ var app = function(){
         // count point and remove planet when plane go over one planet
         if(planet.position.z > positionPlane.z + 100){
             point+=1;
-            document.getElementById("score").innerHTML = point ;
+            document.getElementById("score").innerHTML = point + "/" + endGamePoint ;
             listPlanet.splice(index,1);
             scene.remove(planet);
         }
@@ -390,9 +393,18 @@ var app = function(){
         ]
 
         // get point
-        document.getElementById("point").innerHTML = point;
-        // get infor planet
-        document.getElementById("information").innerHTML = planetInformation[Math.floor(Math.random()*planetInformation.length)];
+        document.getElementById("point").innerHTML = point + "/" + endGamePoint;
+        if(overGame){
+            document.getElementById("known").style.display="inline";
+            // get infor planet
+            document.getElementById("information").innerHTML = planetInformation[Math.floor(Math.random()*planetInformation.length)];
+        }
+            document.getElementById("known").style.display="inline";
+        if(point == endGamePoint){
+            document.getElementById("known").style.display="none";
+
+            document.getElementById("information").innerHTML = "<h1>YOU ARE WINNER<h1>";
+        }
     } 
 
     /**
@@ -413,11 +425,12 @@ var app = function(){
     var setDefault = function(){
         // reset point
         point = 0;
-        document.getElementById("score").innerHTML = point ;
+        document.getElementById("score").innerHTML = point + "/" + endGamePoint;
         var scores =document.querySelector('#center');     
         scores.style.display = "flex";
 
-        
+        //velocity
+        document.querySelector('.velocity').style.display = "inline";     
 
          // reset plane
         plane.position.x=0;
@@ -700,7 +713,6 @@ var app = function(){
             createPlanet();
         }
     
-
         // update planet
         if(isPlay){
             listPlanet.forEach(update_planet);
@@ -709,7 +721,7 @@ var app = function(){
         }
         
         // check game over
-        if(overGame){
+        if(overGame || point == endGamePoint){
             // add infor of planet
             addInforPlanet();
 
@@ -723,6 +735,10 @@ var app = function(){
             // disable score box
             var scores =document.querySelector('#center');     
             scores.style.display = "none";
+
+            //disable velocity
+            document.querySelector('.velocity').style.display = "none";     
+
             // display end game box
             var loadEndGameBox = document.querySelector('.end-game-box');
             loadEndGameBox.style.display= "flex";
@@ -766,6 +782,9 @@ var app = function(){
                 moveR();
             };
         }
+
+        //velocity
+        document.getElementById("velocity").innerHTML = speedPlanet + '00 km/h';
     };
 
     progress();

@@ -404,8 +404,7 @@ body {
 
 .neon {
   color: #fff;
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #0ff,
-    0 0 80px #0ff, 0 0 90px #0ff, 0 0 100px #0ff, 0 0 150px #0ff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
 }
 
 body {
@@ -480,4 +479,108 @@ body {
   left: 0;
   top: 0;
   border-radius: 10px;
+}
+/* pop-up story */
+
+.box {
+  position: absolute;
+  margin: 0 auto;
+  padding: 35px;
+  text-align: center;
+  right: 15px;
+}
+
+.button {
+  padding: 10px 30px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  top: 20%;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #ffffff;
+}
+.popup .close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 700px) {
+  .box {
+    width: 70%;
+  }
+  .popup {
+    width: 70%;
+  }
+}
+
+/* tutorial */
+.box-2 {
+  top: 65px;
+}
+
+/* velocity */
+
+.velocity {
+  display: none;
+  bottom: 50px;
+  right: 22%;
+  font-size: 30px;
+  color: #753885;
+  position: absolute;
+}
+
+.velocity img {
+  width: 10%;
+}
+
+.velocity #velocity {
+  position: absolute;
+  top: 35%;
+  left: 10%;
+}
+
+#winner {
+  display: none;
 }

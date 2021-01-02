@@ -21,9 +21,45 @@
 </head>
 
 <body onload="showGame()">
-
   <!-- start game -->
   <section id="name-game" class="">
+    <!-- pop-up story  -->
+    <div class="box">
+      <a class="button bubbly-button" href="#popup-story">Story</a>
+    </div>
+
+    <div id="popup-story" class="overlay ">
+      <div class="popup game-over border-gradient">
+        <h2>STARS WAR</h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+          After the end of the civil war in the galaxy, your spaceship has been separated from your legion. With the
+          remaining food and fuel on board you need to quickly cross 100 planets to bring everyone on board back to
+          their families. On the way you need to avoid colliding with planets to ensure the safety of the ship. You can
+          speed up for faster return, as well as slow down for time to rest.
+        </div>
+      </div>
+    </div>
+
+    <!-- tutorial game -->
+    <div class="box box-2">
+      <a class="button bubbly-button" href="#popup-tutorial">Tutorial</a>
+    </div>
+
+    <div id="popup-tutorial" class="overlay ">
+      <div class="popup game-over border-gradient">
+        <h2>How to play?</h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+          <p>1. Press any key to start game</p>
+          <p>2. Press the 's'/'<' key to move left</p>
+              <p>3. Press the 'd'/'>' key to move left</p>
+              <p>4. Pick up flash box to speed up</p>
+              <p>5. Pick up slow box to speed down</p>
+        </div>
+      </div>
+    </div>
+
     <div class="starwars-demo uncopy">
       <img src="./data/textures/star.svg" alt="Star" class="star">
       <img src="./data/textures/wars.svg" alt="Wars" class="wars">
@@ -47,11 +83,12 @@
   </section>
 
   <!-- end game -->
-  <div class="end-game-box ">
+  <div class="end-game-box">
     <div class="game-over border-gradient">
       <h1>Game Over</h1>
       <h3>Score: <span id="point">0 </span> <span><i class="fas fa-globe-asia"></i></span></h3>
-      <p><i>Do you known?</i>
+      <p>
+        <i id="known">Do you known?</i>
         </br>
         <i id="information"></i>
       </p>
@@ -61,7 +98,7 @@
 
   <!-- count score -->
   <div id="center" class="container">
-    <h1 id="score" class="neon">0</h1>
+    <h1 id="score" class="neon">0/100</h1>
   </div>
 
   <!-- audio -->
@@ -69,6 +106,11 @@
   <audio id="myAudio" controls autoplay loop hidden>
     <source src="data/sounds/startGame.ogg" type="audio/ogg">
   </audio>
+
+  <!-- velocity -->
+  <div class="velocity neon">
+    <span><img src="data/textures/speedometers.png" alt=""></span><span id="velocity"></span>
+  </div>
 
 </body>
 

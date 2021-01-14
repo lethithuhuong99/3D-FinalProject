@@ -700,10 +700,21 @@ var app = function(){
         createPlanet(); 
     };
 
+    var lastTime = new Date().getTime();
+    var deltaTime = 0;
+    var FPS=0;
+
     /**
      * main loop
      */
     var mainLoop = function(){
+
+        var currentTime = new Date().getTime();
+        deltaTime= (currentTime - lastTime);
+        lastTime = currentTime;
+        FPS = 1000/deltaTime;
+        console.log("deltaTime "+ deltaTime + " millisecond!");
+        console.log("FPS: " +  FPS);
 
         // update speed
         updateSpeed();
